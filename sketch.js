@@ -11,6 +11,13 @@ let tilesY = 12; //number of tiles on the y axis
 let tileSize = 32; //the size of the tiles
 let textures = []; //value to store textures
 
+//Items and Inventory
+let items = [];
+let itemTextures = [];
+let itemTypeName = ["","Key","Test"]
+
+let inventory = [];
+
 
 //LEVEL DATA OBJECTS
 
@@ -24,13 +31,13 @@ let level0 = {
     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 4, 1, 2, 2, 2, 2, 2, 2, 2, 2], //2
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //3
     [1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 3, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //4   1st VALUE (y)
-    [1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 3, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //5
+    [8, 8, 8, 4, 8, 8, 8, 8, 8, 8, 3, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8], //5
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3], //6
-    [6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 2, 0, 3, 3, 3, 3, 3, 0], //9
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 2, 0, 3, 3, 3, 3, 3, 0], //10
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 7, 0, 2, 0, 0, 0, 0, 0, 0, 0]  //11
+    [6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9], //7
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9], //8
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 2, 9, 3, 3, 3, 3, 3, 9], //9
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 2, 9, 3, 3, 3, 3, 3, 9], //10
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 7, 0, 2, 9, 9, 9, 9, 9, 9, 9]  //11
   ],
 
   tileRules: [
@@ -49,6 +56,23 @@ let level0 = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0], //10
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]  //11
   ],
+
+  itemMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
 
   startTiles: [
               [3,7],
@@ -72,7 +96,7 @@ let countMax = 30;
 
 function preload(){
 
-  textures[0] = loadImage('Resources/Images/floor.png');
+  textures[0] = loadImage('Resources/Images/hallwayFloor.png');
   textures[1] = loadImage('Resources/Images/wall.png')
   textures[2] = loadImage('Resources/Images/Out_Of_Bounds.png')
   textures[3] = loadImage('Resources/Images/table.png')
@@ -80,12 +104,19 @@ function preload(){
   textures[5] = loadImage('Resources/Images/doorTop.png')
   textures[6] = loadImage('Resources/Images/doorLeft.png')
   textures[7] = loadImage('Resources/Images/doorDown.png')
+  textures[8] = loadImage('Resources/Images/wallTrim.png')
+  textures[9] = loadImage('Resources/Images/kitchenFloor.png')
 
   //sprite
   playerSprites[0] = loadImage('Resources/Images/AlbaDown.png')
   playerSprites[1] = loadImage('Resources/Images/AlbaLeft.png')
   playerSprites[2] = loadImage('Resources/Images/AlbaUp.png')
   playerSprites[3] = loadImage('Resources/Images/AlbaRight.png')
+
+  //item textures
+  itemTextures[0] = loadImage('Resources/Images/Out_Of_Bounds.png')
+  itemTextures[1] = loadImage('Resources/Images/key.png')
+  itemTextures[2] = loadImage('Resources/Images/collision_Tile.png')
 }
 
 
@@ -100,6 +131,7 @@ function setup() {
 function loadLevel() {
   graphicsMap = levels[currentLevel].graphicsMap
   tileRules = levels[currentLevel].tileRules
+  itemMap = levels[currentLevel].itemMap
 
   //CREATING TILEMAP
   let tileID = 0; // ID number for a specific tile
@@ -117,6 +149,28 @@ function loadLevel() {
       tileID++;
     }
   }
+
+   //CREATING ITEMMAP
+
+  //nested loop that creates the item map 
+  for (let tileX = 0; tileX < tilesX; tileX++) {
+    items[tileX] = []; //creates an empty column on the tilemap
+    for (let tileY = 0; tileY < tilesY; tileY++) {
+
+      //Set the texture for the tile
+      let itemTexture = itemMap[tileY][tileX];
+      let itemID = itemTexture
+      let itemName = itemTypeName[itemID]
+        //creates a new tile from the tile class and puts it in the current column
+        if (itemID != 0){
+          items[tileX][tileY] = new Item(itemName,itemTextures[itemTexture], tileX, tileY, tileSize, itemID);
+        }
+        else{
+          items[tileX][tileY] = ""
+        }
+      
+    }
+  }
 }
 
 function draw() {
@@ -129,6 +183,14 @@ function draw() {
     }
   }
 
+  for (let tileX = 0; tileX < tilesX; tileX++){
+    for (let tileY = 0; tileY < tilesY; tileY++){
+      if (itemMap[tileY][tileX] != 0){
+        items[tileX][tileY].display()
+      }
+    }
+  }
+
   if (player.transition){
     //called once per frame to make a 30 second timer
     if (count === countMax) player.transition = false;
@@ -138,6 +200,7 @@ function draw() {
 
   player.setDirection();
   player.move();
+  player.interact();
 
   //displays a message in each of the selected tiles
 }
@@ -187,6 +250,29 @@ class Tile {
   }
 }
 
+class Item {
+  constructor(name,texture,tileX, tileY, tileSize, itemID){
+    //item texture
+    this.texture = texture;
+    //position on tile map
+    this.tileX = tileX;
+    this.tileY = tileY;
+    //pixel position on the canvas
+    this.xPos = this.tileX * tileSize;
+    this.yPos = this.tileY * tileSize;
+
+    //itemInfo
+    this.name = name;
+    this.tileSize = tileSize; //sets the item size
+    this.itemID = itemID; //Determines the type of item
+  }
+
+  display(){
+    noStroke()
+    image(this.texture,this.xPos,this.yPos,this.tileSize,this.tileSize)
+  }
+}
+
 
 class Player {
   constructor(sprites,startX,startY,playerSizeX,playerSizeY,tileRule){
@@ -218,7 +304,7 @@ class Player {
 
     //movement
     this.isMoving = false;
-    this.speed = 4
+    this.speed = 2
     this.spriteDirection = 0
 
   }
@@ -360,6 +446,83 @@ class Player {
 
     this.xPos = this.tileX * playerSizeX
     this.yPos = this.tileY * playerSizeY
+  }
+
+  interact(){
+    if (keyIsDown(69)){ //e
+
+      //Checks the tile above for items
+      if (this.facing == "up"){
+        let tileSelectedX = this.tileX 
+        let tileSelectedY = this.tileY - 1
+
+        //if there is an item, it is removed from the item map
+        //and placed into the inventory
+        if (itemMap[tileSelectedY][tileSelectedX] != 0){
+
+          itemMap[tileSelectedY][tileSelectedX] = 0
+          let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
+          append(inventory,itemValue)
+          items[tileSelectedX][tileSelectedY] = ""
+
+          console.log("Inventory",inventory)
+        }
+      }
+
+      //Checks the tile below for items
+      if (this.facing == "down"){
+        let tileSelectedX = this.tileX 
+        let tileSelectedY = this.tileY + 1
+        
+        //if there is an item, it is removed from the item map
+        //and placed into the inventory
+        if (itemMap[tileSelectedY][tileSelectedX] != 0){
+
+          itemMap[tileSelectedY][tileSelectedX] = 0
+          let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
+          append(inventory,itemValue)
+          items[tileSelectedX][tileSelectedY] = ""
+
+          console.log("Inventory",inventory)
+        }
+      }
+
+      //Checks the tile to the left for items
+      if (this.facing == "left"){
+        let tileSelectedX = this.tileX - 1
+        let tileSelectedY = this.tileY
+        
+        //if there is an item, it is removed from the item map
+        //and placed into the inventory
+        if (itemMap[tileSelectedY][tileSelectedX] != 0){
+
+          itemMap[tileSelectedY][tileSelectedX] = 0
+          let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
+          append(inventory,itemValue)
+          items[tileSelectedX][tileSelectedY] = ""
+
+          console.log("Inventory",inventory)
+        }
+      }
+
+      //Checks the tile to the right for items
+      if (this.facing == "right"){
+        let tileSelectedX = this.tileX + 1
+        let tileSelectedY = this.tileY
+        
+        //if there is an item, it is removed from the item map
+        //and placed into the inventory
+        if (itemMap[tileSelectedY][tileSelectedX] != 0){
+
+          itemMap[tileSelectedY][tileSelectedX] = 0
+          let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
+          append(inventory,itemValue)
+          items[tileSelectedX][tileSelectedY] = ""
+
+          console.log("Inventory",inventory)
+        }
+      }
+    }
   }
 }
 
