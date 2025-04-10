@@ -21,7 +21,7 @@ let inventory = [];
 
 //LEVEL DATA OBJECTS
 
-let level0 = {
+let mainHouse = {
 
   graphicsMap: [
   //       2nd Value (x)
@@ -48,9 +48,9 @@ let level0 = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //3
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //4   1st VALUE (y)
-    [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //5
+    [1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //5
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //6
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0], //9
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0], //10
@@ -75,17 +75,146 @@ let level0 = {
     ],
 
   startTiles: [
-              [3,7],
-              [3,7]
-              ]
+              [3,6,1],
+              [1,7,2]
+              ],
 
+  doorTransitions: [
+                    [3,5,1],
+                    [0,7,2]
+                    ]
 
+}
+
+let albaRoom = {
+
+  graphicsMap: [
+  //       2nd Value (x)
+  // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+    [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2], //0
+    [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2], //1
+    [2, 2, 2, 2, 2, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2], //2
+    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //3
+    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //4   1st VALUE (y)
+    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //5
+    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //6
+    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //7
+    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //8
+    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //9
+    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //10
+    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]  //11
+  ],
+
+  tileRules: [
+  //       2nd Value (x)
+  // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //0
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //1
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], //3
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], //4   1st VALUE (y)
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], //5
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], //6
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], //7
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], //8
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], //9
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], //10
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]  //11
+  ],
+
+  itemMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
+
+  startTiles: [
+              [10,10,0]
+              ],
+
+  doorTransitions: [
+                    [10,11,0]
+                    ]
+
+}
+
+let garden = {
+
+  graphicsMap: [
+  //       2nd Value (x)
+  // 0   1    2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19 20
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //0
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //1
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //2
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //3
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //4   1st VALUE (y)
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 11], //5
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //6
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //7
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //8
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //9
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //10
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0]  //11
+  ],
+
+  tileRules: [
+  //       2nd Value (x)
+  // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2], //5
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+  ],
+
+  itemMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
+
+  startTiles: [
+              [19,5,0]
+              ],
+
+  doorTransitions: [
+                    [20,5,0]
+                    ]
 
 }
 
 //Level Control Variables
 
-let levels = [level0];
+let levels = [mainHouse,albaRoom,garden];
 let currentLevel = 0;
 let graphicsMap;
 let tileRules;
@@ -106,6 +235,8 @@ function preload(){
   textures[7] = loadImage('Resources/Images/doorDown.png')
   textures[8] = loadImage('Resources/Images/wallTrim.png')
   textures[9] = loadImage('Resources/Images/kitchenFloor.png')
+  textures[10] = loadImage('Resources/Images/grasstile_plain.png')
+  textures[11] = loadImage('Resources/Images/doorRight.png')
 
   //sprite
   playerSprites[0] = loadImage('Resources/Images/AlbaDown.png')
@@ -387,25 +518,28 @@ class Player {
         nextTileY >= 0 &&        //top
         nextTileY < tilesY){     //bottom
 
-          if (tileRules[nextTileY][nextTileX] === 2){ //transitions to new level through doors(eventually)
-            currentLevel ++
-            if (currentLevel >= levels.length){
-              currentLevel = 0
+          if (tileRules[nextTileY][nextTileX] === 2){ //transitions to new level through doors
+            let previousLevel;
+            let nextLevel;
+            let doorX;
+            let doorY;
+            //goes through door transition list until it finds which door has been used to 
+            //find out which room the door goes to
+            for (let x = 0; x < levels[currentLevel].doorTransitions.length; x++){
+              doorX = levels[currentLevel].doorTransitions[x][0]
+              doorY = levels[currentLevel].doorTransitions[x][1]
+              if (nextTileX == doorX && nextTileY == doorY){
+                nextLevel = levels[currentLevel].doorTransitions[x][2]
+              }
             }
+            previousLevel = currentLevel
+            currentLevel = nextLevel
             loadLevel()
-            this.setPlayerPosition(0)
+            this.setPlayerPosition(previousLevel)
             count = 0;
             this.transition = true;
           }
           
-          else if (tileRules[nextTileY][nextTileX] === 3){//coded to go back to old levels but may change
-            currentLevel --
-            
-            loadLevel()
-            this.setPlayerPosition(1)
-            count = 0;
-            this.transition = true;
-          }
 
           //checks if next tile is not walkable
           else if (tileRules[nextTileY][nextTileX] != 1
@@ -440,12 +574,18 @@ class Player {
   }
 
   //sets start position in each level
-  setPlayerPosition(doorValue){
-    this.tileX = levels[currentLevel].startTiles[doorValue][0] 
-    this.tileY = levels[currentLevel].startTiles[doorValue][1]
+  setPlayerPosition(previousLevel){
+    //goes through start tiles to find out which tile to start the player on
+    //according to the previous level
+    for (let x = 0; x < levels[currentLevel].startTiles.length; x++){
+      if (previousLevel == levels[currentLevel].startTiles[x][2]){
+        this.tileX = levels[currentLevel].startTiles[x][0] 
+        this.tileY = levels[currentLevel].startTiles[x][1]
+      }
+    }
 
     this.xPos = this.tileX * playerSizeX
-    this.yPos = this.tileY * playerSizeY
+    this.yPos = this.tileY * playerSizeX
   }
 
   interact(){
@@ -456,16 +596,19 @@ class Player {
         let tileSelectedX = this.tileX 
         let tileSelectedY = this.tileY - 1
 
-        //if there is an item, it is removed from the item map
-        //and placed into the inventory
-        if (itemMap[tileSelectedY][tileSelectedX] != 0){
+        //checks if tile exists
+        if (tileSelectedX >= 0 && tileSelectedX < tilesX && tileSelectedY >= 0 && tileSelectedY < tilesY){
+          //if there is an item, it is removed from the item map
+          //and placed into the inventory
+          if (itemMap[tileSelectedY][tileSelectedX] != 0){
 
-          itemMap[tileSelectedY][tileSelectedX] = 0
-          let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
-          append(inventory,itemValue)
-          items[tileSelectedX][tileSelectedY] = ""
+            itemMap[tileSelectedY][tileSelectedX] = 0
+            let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
+            append(inventory,itemValue)
+            items[tileSelectedX][tileSelectedY] = ""
 
-          console.log("Inventory",inventory)
+            console.log("Inventory",inventory)
+          }
         }
       }
 
@@ -474,17 +617,21 @@ class Player {
         let tileSelectedX = this.tileX 
         let tileSelectedY = this.tileY + 1
         
-        //if there is an item, it is removed from the item map
-        //and placed into the inventory
-        if (itemMap[tileSelectedY][tileSelectedX] != 0){
+        //checks if tile exists
+        if (tileSelectedX >= 0 && tileSelectedX < tilesX && tileSelectedY >= 0 && tileSelectedY < tilesY){
+          //if there is an item, it is removed from the item map
+          //and placed into the inventory
+          if (itemMap[tileSelectedY][tileSelectedX] != 0){
 
-          itemMap[tileSelectedY][tileSelectedX] = 0
-          let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
-          append(inventory,itemValue)
-          items[tileSelectedX][tileSelectedY] = ""
+            itemMap[tileSelectedY][tileSelectedX] = 0
+            let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
+            append(inventory,itemValue)
+            items[tileSelectedX][tileSelectedY] = ""
 
-          console.log("Inventory",inventory)
+            console.log("Inventory",inventory)
+          }
         }
+        
       }
 
       //Checks the tile to the left for items
@@ -492,16 +639,19 @@ class Player {
         let tileSelectedX = this.tileX - 1
         let tileSelectedY = this.tileY
         
-        //if there is an item, it is removed from the item map
-        //and placed into the inventory
-        if (itemMap[tileSelectedY][tileSelectedX] != 0){
+        //checks if tile exists
+        if (tileSelectedX >= 0 && tileSelectedX < tilesX && tileSelectedY >= 0 && tileSelectedY < tilesY){
+          //if there is an item, it is removed from the item map
+          //and placed into the inventory
+          if (itemMap[tileSelectedY][tileSelectedX] != 0){
 
-          itemMap[tileSelectedY][tileSelectedX] = 0
-          let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
-          append(inventory,itemValue)
-          items[tileSelectedX][tileSelectedY] = ""
+            itemMap[tileSelectedY][tileSelectedX] = 0
+            let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
+            append(inventory,itemValue)
+            items[tileSelectedX][tileSelectedY] = ""
 
-          console.log("Inventory",inventory)
+            console.log("Inventory",inventory)
+          }
         }
       }
 
@@ -510,16 +660,19 @@ class Player {
         let tileSelectedX = this.tileX + 1
         let tileSelectedY = this.tileY
         
-        //if there is an item, it is removed from the item map
-        //and placed into the inventory
-        if (itemMap[tileSelectedY][tileSelectedX] != 0){
+        //checks if tile exists
+        if (tileSelectedX >= 0 && tileSelectedX < tilesX && tileSelectedY >= 0 && tileSelectedY < tilesY){
+          //if there is an item, it is removed from the item map
+          //and placed into the inventory
+          if (itemMap[tileSelectedY][tileSelectedX] != 0){
 
-          itemMap[tileSelectedY][tileSelectedX] = 0
-          let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
-          append(inventory,itemValue)
-          items[tileSelectedX][tileSelectedY] = ""
+            itemMap[tileSelectedY][tileSelectedX] = 0
+            let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
+            append(inventory,itemValue)
+            items[tileSelectedX][tileSelectedY] = ""
 
-          console.log("Inventory",inventory)
+            console.log("Inventory",inventory)
+          }
         }
       }
     }
