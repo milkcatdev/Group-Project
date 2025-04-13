@@ -10,6 +10,8 @@ let tilesX = 21; //number of tiles on the x axis
 let tilesY = 12; //number of tiles on the y axis
 let tileSize = 32; //the size of the tiles
 let textures = []; //value to store textures
+let assets = []; //value to store assets
+let assetTileMap = [];
 
 //Items and Inventory
 let items = [];
@@ -23,22 +25,39 @@ let inventory = [];
 
 let mainHouse = {
 
-  graphicsMap: [
+  backgroundMap: [
   //       2nd Value (x)
   // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2], //0
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 5, 1, 2, 2, 2, 2, 2, 2, 2, 2], //1
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 4, 1, 2, 2, 2, 2, 2, 2, 2, 2], //2
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 4, 1, 2, 2, 2, 2, 2, 2, 2, 2], //1
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 3, 1, 2, 2, 2, 2, 2, 2, 2, 2], //2
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //3
-    [1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 3, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //4   1st VALUE (y)
-    [8, 8, 8, 4, 8, 8, 8, 8, 8, 8, 3, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8], //5
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3], //6
-    [6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9], //7
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9], //8
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 2, 9, 3, 3, 3, 3, 3, 9], //9
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 2, 9, 3, 3, 3, 3, 3, 9], //10
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 7, 0, 2, 9, 9, 9, 9, 9, 9, 9]  //11
+    [1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //4   1st VALUE (y)
+    [7, 7, 7, 3, 7, 7, 7, 7, 7, 7, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7], //5
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8], //6
+    [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8], //7
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8], //8
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 2, 8, 8, 8, 8, 8, 8, 8], //9
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 2, 8, 8, 8, 8, 8, 8, 8], //10
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 6, 0, 2, 8, 8, 8, 8, 8, 8, 8]  //11
   ],
+
+  assetMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
 
   tileRules: [
   //       2nd Value (x)
@@ -46,14 +65,14 @@ let mainHouse = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //0
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //1
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //3
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //4   1st VALUE (y)
-    [1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //5
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //6
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1], //3
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //4   1st VALUE (y)
+    [1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //5
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
     [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0], //9
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0], //10
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0], //8
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0], //9
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0], //10
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]  //11
   ],
 
@@ -69,7 +88,7 @@ let mainHouse = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], //9
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
     ],
@@ -88,12 +107,12 @@ let mainHouse = {
 
 let albaRoom = {
 
-  graphicsMap: [
+  backgroundMap: [
   //       2nd Value (x)
   // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2], //0
     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2], //1
-    [2, 2, 2, 2, 2, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2], //2
+    [2, 2, 2, 2, 2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2, 2, 2, 2, 2], //2
     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //3
     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //4   1st VALUE (y)
     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //5
@@ -102,8 +121,25 @@ let albaRoom = {
     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //8
     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //9
     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2], //10
-    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]  //11
+    [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]  //11
   ],
+
+  assetMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
 
   tileRules: [
   //       2nd Value (x)
@@ -151,22 +187,39 @@ let albaRoom = {
 
 let garden = {
 
-  graphicsMap: [
+  backgroundMap: [
   //       2nd Value (x)
   // 0   1    2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19 20
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //0
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //1
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //2
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //3
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //4   1st VALUE (y)
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 11], //5
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //6
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //7
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //8
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //9
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0], //10
-    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0]  //11
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0], //0
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0], //1
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0], //2
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0], //3
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0], //4   1st VALUE (y)
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 10], //5
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0], //6
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0], //7
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0], //8
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0], //9
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0], //10
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0]  //11
   ],
+
+  assetMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
 
   tileRules: [
   //       2nd Value (x)
@@ -216,7 +269,8 @@ let garden = {
 
 let levels = [mainHouse,albaRoom,garden];
 let currentLevel = 0;
-let graphicsMap;
+let backgroundMap;
+let assetMap;
 let tileRules;
 
 //timer values
@@ -225,18 +279,23 @@ let countMax = 30;
 
 function preload(){
 
-  textures[0] = loadImage('Resources/Images/hallwayFloor.png');
-  textures[1] = loadImage('Resources/Images/wall.png')
-  textures[2] = loadImage('Resources/Images/Out_Of_Bounds.png')
-  textures[3] = loadImage('Resources/Images/table.png')
-  textures[4] = loadImage('Resources/Images/doorBottom.png')
-  textures[5] = loadImage('Resources/Images/doorTop.png')
-  textures[6] = loadImage('Resources/Images/doorLeft.png')
-  textures[7] = loadImage('Resources/Images/doorDown.png')
-  textures[8] = loadImage('Resources/Images/wallTrim.png')
-  textures[9] = loadImage('Resources/Images/kitchenFloor.png')
-  textures[10] = loadImage('Resources/Images/grasstile_plain.png')
-  textures[11] = loadImage('Resources/Images/doorRight.png')
+  //background textures with texture, x size, and y size
+  textures[0] = [loadImage('Resources/Images/hallwayFloor.png'),tileSize,tileSize]
+  textures[1] = [loadImage('Resources/Images/wall.png'),tileSize,tileSize]
+  textures[2] = [loadImage('Resources/Images/Out_Of_Bounds.png'),tileSize,tileSize]
+  textures[3] = [loadImage('Resources/Images/doorBottom.png'),tileSize,tileSize]
+  textures[4] = [loadImage('Resources/Images/doorTop.png'),tileSize,tileSize]
+  textures[5] = [loadImage('Resources/Images/doorLeft.png'),tileSize,tileSize]
+  textures[6] = [loadImage('Resources/Images/doorDown.png'),tileSize,tileSize]
+  textures[7] = [loadImage('Resources/Images/wallTrim.png'),tileSize,tileSize]
+  textures[8] = [loadImage('Resources/Images/kitchenFloor.png'),tileSize,tileSize]
+  textures[9] = [loadImage('Resources/Images/grasstile_plain.png'),tileSize,tileSize]
+  textures[10] = [loadImage('Resources/Images/doorRight.png'),tileSize,tileSize]
+
+  //assets
+  assets[0] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize]
+  assets[1] = [loadImage('Resources/Images/dinnerTable.png'),96,128]
+  assets[2] = [loadImage('Resources/Images/plant.png'),32,64]
 
   //sprite
   playerSprites[0] = loadImage('Resources/Images/AlbaDown.png')
@@ -260,26 +319,16 @@ function setup() {
 }
 
 function loadLevel() {
-  graphicsMap = levels[currentLevel].graphicsMap
+  backgroundMap = levels[currentLevel].backgroundMap
+  assetMap = levels[currentLevel].assetMap
   tileRules = levels[currentLevel].tileRules
   itemMap = levels[currentLevel].itemMap
 
   //CREATING TILEMAP
-  let tileID = 0; // ID number for a specific tile
-
-  //nested loop that creates the tile map 
-  for (let tileX = 0; tileX < tilesX; tileX++) {
-    tileMap[tileX] = []; //creates an empty column on the tilemap
-    for (let tileY = 0; tileY < tilesY; tileY++) {
-
-      //Set the texture for the tile
-      let texture = graphicsMap[tileY][tileX];
-      //creates a new tile from the tile class and puts it in the current column
-      tileMap[tileX][tileY] = new Tile(textures[texture], tileX, tileY, tileSize, tileID);
-
-      tileID++;
-    }
-  }
+  makeTileMap(tileMap,backgroundMap,textures);
+  
+  //CREATING ASSET MAP
+  makeTileMap(assetTileMap,assetMap,assets);
 
    //CREATING ITEMMAP
 
@@ -294,12 +343,31 @@ function loadLevel() {
       let itemName = itemTypeName[itemID]
         //creates a new tile from the tile class and puts it in the current column
         if (itemID != 0){
-          items[tileX][tileY] = new Item(itemName,itemTextures[itemTexture], tileX, tileY, tileSize, itemID);
+          items[tileX][tileY] = new Item(itemName,itemTextures[itemTexture], tileX, tileY, tileSize, tileSize, itemID);
         }
         else{
           items[tileX][tileY] = ""
         }
       
+    }
+  }
+}
+
+function makeTileMap(mapType,textureMap,textureType) {
+  let tileID = 0; // ID number for a specific tile
+
+
+  //nested loop that creates the tile map 
+  for (let tileX = 0; tileX < tilesX; tileX++) {
+    mapType[tileX] = []; //creates an empty column on the tilemap
+    for (let tileY = 0; tileY < tilesY; tileY++) {
+
+      //Set the texture for the tile
+      let texture = textureMap[tileY][tileX];
+      //creates a new tile from the tile class and puts it in the current column
+      mapType[tileX][tileY] = new Tile(textureType[texture][0], tileX, tileY, textureType[texture][1], textureType[texture][2], textureType[texture][3], textureType[texture][4], tileID);
+
+      tileID++;
     }
   }
 }
@@ -311,6 +379,13 @@ function draw() {
   for (let tileX = 0; tileX < tilesX; tileX++){
     for (let tileY = 0; tileY < tilesY; tileY++){
       tileMap[tileX][tileY].display()
+    }
+  }
+
+  //displays all of the tiles
+  for (let tileX = 0; tileX < tilesX; tileX++){
+    for (let tileY = 0; tileY < tilesY; tileY++){
+      assetTileMap[tileX][tileY].display()
     }
   }
 
@@ -327,6 +402,7 @@ function draw() {
     if (count === countMax) player.transition = false;
     else count ++
   }
+
   player.display();
 
   player.setDirection();
@@ -338,7 +414,7 @@ function draw() {
 
 //creates the tile class
 class Tile {
-  constructor(texture,tileX, tileY, tileSize, tileID){
+  constructor(texture,tileX, tileY, tileSizeX, tileSizeY, alignmentX, alignmentY, tileID){
     //tile texture
     this.texture = texture;
     //position on tile map
@@ -348,13 +424,16 @@ class Tile {
     this.xPos = this.tileX * tileSize;
     this.yPos = this.tileY * tileSize;
 
-    this.tileSize = tileSize; //sets the tile size
+    this.tileSizeX = tileSizeX; //sets the tile size
+    this.tileSizeY = tileSizeY; //sets the tile size
     this.tileID = tileID; //sets the tileID number
+    this.alignmentX = alignmentX //alignment of tiles in X
+    this.alignmentY = alignmentY //alignment of tiles in Y
   }
 
   display(){
     noStroke()
-    image(this.texture,this.xPos,this.yPos,this.tileSize,this.tileSize)
+    image(this.texture,this.xPos,this.yPos,this.tileSizeX,this.tileSizeY)
   }
   debugGrid(){
     let xPadding = 2; //padding for x values
