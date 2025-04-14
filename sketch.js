@@ -17,9 +17,7 @@ let assetTileMap = [];
 let items = [];
 let itemTextures = [];
 let itemTypeName = ["","Key","Test"]
-
 let inventory = [];
-
 
 //LEVEL DATA OBJECTS
 
@@ -64,7 +62,7 @@ let mainHouse = {
   // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //0
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //1
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1], //3
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //4   1st VALUE (y)
     [1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //5
@@ -73,7 +71,7 @@ let mainHouse = {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0], //8
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0], //9
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0], //10
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]  //11
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0]  //11
   ],
 
   itemMap: [
@@ -93,16 +91,21 @@ let mainHouse = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
     ],
 
+    //tile positions when the player comes from each door
   startTiles: [
-              [3,6,1],
-              [1,7,2]
+              [3,6,1], //From Alba's Room
+              [1,7,2], //From the Garden
+              [11,3,3], //From Laura's Room
+              [11,10,4] //From Street
               ],
 
+    //information to determine which room a door leads to
   doorTransitions: [
-                    [3,5,1],
-                    [0,7,2]
+                    [3,5,1], //To Alba's Room
+                    [0,7,2], //To the Garden
+                    [11,2,3], //To Laura's Room
+                    [11,11,4] //From Street
                     ]
-
 }
 
 let albaRoom = {
@@ -175,14 +178,15 @@ let albaRoom = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
     ],
 
+    //tile positions when the player comes from each door
   startTiles: [
-              [8,9,0]
+              [8,9,0] //from the main house
               ],
 
+    //information to determine which room a door leads to
   doorTransitions: [
-                    [8,10,0]
+                    [8,10,0] //to the main house
                     ]
-
 }
 
 let garden = {
@@ -255,19 +259,265 @@ let garden = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
     ],
 
+    //tile positions when the player comes from each door
   startTiles: [
-              [19,5,0]
+              [19,5,0] //from the main house
               ],
 
+    //information to determine which room a door leads to
   doorTransitions: [
-                    [20,5,0]
+                    [20,5,0] //to the main house
                     ]
+}
 
+let lauraRoom = {
+
+  backgroundMap: [
+  //       2nd Value (x)
+  // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], //0
+    [2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2], //1
+    [2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2], //2
+    [2, 2, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 2, 2, 2, 2], //3
+    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //4   1st VALUE (y)
+    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //5
+    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //6
+    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //7
+    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //8
+    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //9
+    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //10
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]  //11
+  ],
+
+  assetMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
+
+  tileRules: [
+  //       2nd Value (x)
+  // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //0
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //1
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //3
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //4   1st VALUE (y)
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //5
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //6
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //7
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //8
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //9
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //10
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]  //11
+  ],
+
+  itemMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
+
+    //tile positions when the player comes from each door
+  startTiles: [
+              [10,9,0] //from the main house
+              ],
+
+    //information to determine which room a door leads to
+  doorTransitions: [
+                    [10,10,0] //to the main house
+                    ]
+}
+
+let street = {
+  
+  backgroundMap: [
+  //       2nd Value (x)
+  // 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+    [1, 1, 9, 1, 1, 7, 7, 7, 1, 1, 9, 1, 1, 7, 7, 7, 1, 1, 9, 1, 1], //0
+    [1, 1, 9, 1, 1, 7, 7, 7, 1, 1, 9, 1, 1, 7, 7, 7, 1, 1, 9, 1, 1], //1
+    [7, 7, 9, 7, 7, 7, 7, 7, 7, 7, 9, 7, 7, 7, 7, 7, 7, 7, 9, 7, 7], //2
+    [7, 7, 9, 7, 7, 7, 7, 7, 7, 7, 9, 7, 7, 7, 7, 7, 7, 7, 9, 7, 7], //3
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9], //4   1st VALUE (y)
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9], //5
+    [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10], //6
+    [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10], //7
+    [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10], //8
+    [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10], //9
+    [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10], //10
+    [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10]  //11
+  ],
+
+  assetMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
+
+  tileRules: [
+  //       2nd Value (x)
+  // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+    [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1], //0
+    [1, 1, 2, 1, 1, 0, 0, 0, 1, 1, 2, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1], //1
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+  ],
+
+  itemMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
+
+    //tile positions when the player comes from each door
+  startTiles: [
+              [2,2,0], //from the main house
+              [10,2,5] //from the supermarket
+              ],
+
+    //information to determine which room a door leads to
+  doorTransitions: [
+                    [2,1,0], //to the main house
+                    [10,1,5] //to the supermarket
+                    ]
+}
+
+let superMarket = {
+
+  backgroundMap: [
+  //       2nd Value (x)
+  // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+    [2,12,12,12,12,12,12,12,12, 2, 2,12,12,12,12,12,12,12,12,12,12], //0
+    [2,13,13,13,13,13,13,13,13, 2, 2,13,13,13,13,13,13,13,13,13,13], //1
+    [2,11,11,11,11,11,11,11,11, 2, 2,11,11,11,11,11,11,11,11,11,11], //2
+    [2,11,11,11,11,11,11,11,11, 2, 2,11,11,11,11,11,11,11,11,11,11], //3
+    [2,11,11,11, 2, 2,11,11,11, 2, 2,11,11,11, 2, 2,11,11,11,11,11], //4   1st VALUE (y)
+    [2,11,11,11, 2, 2,11,11,11, 2, 2,11,11,11, 2, 2,11,11,11,11,11], //5
+    [2,11,11,11, 2, 2,11,11,11, 2, 2,11,11,11, 2, 2,11,11,11,11,11], //6
+    [2,11,11,11, 2, 2,11,11,11,12,12,11,11,11, 2, 2,11,11,11,11,11], //7
+    [2,11,11,11, 2, 2,11,11,11,13,13,11,11,11, 2, 2,11,11,11,11,11], //8
+    [2,11,11,11, 2, 2,11,11,11,11,11,11,11,11, 2, 2,11,11,11,11,11], //9
+    [2,11,11,11, 2, 2,11,11,11,11,11,11,11,11, 2, 2,11,11,11,11,11], //10
+    [2,11, 4,11, 2, 2,11,11,11,11,11,11,11,11, 2, 2,11,11,11,11,11]  //11
+  ],
+
+  assetMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
+
+  tileRules: [
+  //       2nd Value (x)
+  // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //0
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //1
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //3
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //4   1st VALUE (y)
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //5
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //6
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //7
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //8
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //9
+    [1, 1, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //10
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]  //11
+  ],
+
+  itemMap: [
+    //       2nd Value (x)
+    // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
+    ],
+
+    //tile positions when the player comes from each door
+  startTiles: [
+              [2,10,4] //from the street
+              ],
+
+    //information to determine which room a door leads to
+  doorTransitions: [
+                    [2,11,4] //to the street
+                    ]
 }
 
 //Level Control Variables
 
-let levels = [mainHouse,albaRoom,garden];
+let levels = [mainHouse,albaRoom,garden,lauraRoom,street,superMarket];
 let currentLevel = 0;
 let backgroundMap;
 let assetMap;
@@ -278,7 +528,6 @@ let count;
 let countMax = 30;
 
 function preload(){
-
   //background textures with texture, x size, and y size
   textures[0] = [loadImage('Resources/Images/HouseTextures/hallwayFloor.png'),tileSize,tileSize]
   textures[1] = [loadImage('Resources/Images/HouseTextures/wall.png'),tileSize,tileSize]
@@ -289,6 +538,11 @@ function preload(){
   textures[6] = [loadImage('Resources/Images/HouseTextures/kitchenFloor.png'),tileSize,tileSize]
   textures[7] = [loadImage('Resources/Images/HouseTextures/grasstile_plain.png'),tileSize,tileSize]
   textures[8] = [loadImage('Resources/Images/HouseTextures/doorRight.png'),tileSize,tileSize]
+  textures[9] = [loadImage('Resources/Images/path.png'),tileSize,tileSize]
+  textures[10] = [loadImage('Resources/Images/road.png'),tileSize,tileSize]
+  textures[11] = [loadImage('Resources/Images/SupermarketTextures/supermarketFloor.png'),tileSize,tileSize]
+  textures[12] = [loadImage('Resources/Images/SupermarketTextures/supermarketWall.png'),tileSize,tileSize]
+  textures[13] = [loadImage('Resources/Images/SupermarketTextures/supermarketWallTrim.png'),tileSize,tileSize]
 
   //assets
   assets[0] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize]
@@ -308,12 +562,10 @@ function preload(){
   itemTextures[2] = loadImage('Resources/Images/collision_Tile.png')
 }
 
-
 function setup() {
   createCanvas(672,384);
 
   loadLevel();
-
   player = new Player(playerSprites, 3, 7, playerSizeX,playerSizeY,tileRules);
 }
 
@@ -329,8 +581,7 @@ function loadLevel() {
   //CREATING ASSET MAP
   makeTileMap(assetTileMap,assetMap,assets);
 
-   //CREATING ITEMMAP
-
+  //CREATING ITEMMAP
   //nested loop that creates the item map 
   for (let tileX = 0; tileX < tilesX; tileX++) {
     items[tileX] = []; //creates an empty column on the tilemap
@@ -355,7 +606,6 @@ function loadLevel() {
 function makeTileMap(mapType,textureMap,textureType) {
   let tileID = 0; // ID number for a specific tile
 
-
   //nested loop that creates the tile map 
   for (let tileX = 0; tileX < tilesX; tileX++) {
     mapType[tileX] = []; //creates an empty column on the tilemap
@@ -365,7 +615,6 @@ function makeTileMap(mapType,textureMap,textureType) {
       let texture = textureMap[tileY][tileX];
       //creates a new tile from the tile class and puts it in the current column
       mapType[tileX][tileY] = new Tile(textureType[texture][0], tileX, tileY, textureType[texture][1], textureType[texture][2], textureType[texture][3], textureType[texture][4], tileID);
-
       tileID++;
     }
   }
@@ -403,12 +652,9 @@ function draw() {
   }
 
   player.display();
-
   player.setDirection();
   player.move();
   player.interact();
-
-  //displays a message in each of the selected tiles
 }
 
 //creates the tile class
@@ -515,7 +761,6 @@ class Player {
     this.isMoving = false;
     this.speed = 2
     this.spriteDirection = 0
-
   }
 
   display(){
@@ -541,28 +786,24 @@ class Player {
     let right = 68    //d
 
     if (!this.isMoving){
-
       //moves up
       if (keyIsDown(up)){
         this.dirX = 0;
         this.dirY = -1;
         this.facing = "up";
       }
-
       //moves down
       if (keyIsDown(down)){
         this.dirX = 0;
         this.dirY = 1;
         this.facing = "down";
       }
-
       //moves left
       if (keyIsDown(left)){
         this.dirX = -1;
         this.dirY = 0;
         this.facing = "left";
       }
-
       //moves down
       if (keyIsDown(right)){
         this.dirX = 1;
@@ -581,7 +822,6 @@ class Player {
       this.dirX = 0;
       this.dirY = 0;
     }
-
     //calculate current position
     this.tileX = Math.floor(this.xPos / this.playerSizeX);
     this.tileY = Math.floor(this.yPos / this.playerSizeX);
@@ -617,7 +857,6 @@ class Player {
             count = 0;
             this.transition = true;
           }
-          
 
           //checks if next tile is not walkable
           else if (tileRules[nextTileY][nextTileX] != 1
@@ -625,29 +864,23 @@ class Player {
             //next pixel positions
             this.tx = nextTileX * playerSizeX;
             this.ty = nextTileY * playerSizeX;
-
             //starts movement
             this.isMoving = true;
           }
-
     }
-
   }
 
   move(){
-
     //moves player
     if (this.isMoving){
       this.xPos += this.speed * this.dirX;
       this.yPos += this.speed * this.dirY;
     }
-
     //stops moving player
     if (this.xPos === this.tx && this.yPos === this.ty){
       this.isMoving = false;
       this.dirX = 0
       this.dirY = 0
-
     }
   }
 
@@ -668,7 +901,6 @@ class Player {
 
   interact(){
     if (keyIsDown(69)){ //e
-
       //Checks the tile above for items
       if (this.facing == "up"){
         let tileSelectedX = this.tileX 
@@ -684,7 +916,6 @@ class Player {
             let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
             append(inventory,itemValue)
             items[tileSelectedX][tileSelectedY] = ""
-
             console.log("Inventory",inventory)
           }
         }
@@ -705,11 +936,9 @@ class Player {
             let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
             append(inventory,itemValue)
             items[tileSelectedX][tileSelectedY] = ""
-
             console.log("Inventory",inventory)
           }
-        }
-        
+        }        
       }
 
       //Checks the tile to the left for items
@@ -727,7 +956,6 @@ class Player {
             let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
             append(inventory,itemValue)
             items[tileSelectedX][tileSelectedY] = ""
-
             console.log("Inventory",inventory)
           }
         }
@@ -748,7 +976,6 @@ class Player {
             let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
             append(inventory,itemValue)
             items[tileSelectedX][tileSelectedY] = ""
-
             console.log("Inventory",inventory)
           }
         }
