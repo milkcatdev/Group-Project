@@ -17,6 +17,7 @@ let assetTileMap = [];
 let items = [];
 let itemTextures = [];
 let itemTypeName = ["","Key","Test"]
+let itemDialogue = ["","You have picked up a key","You have picked up a test object"]
 let inventory = [];
 
 //LEVEL DATA OBJECTS
@@ -82,8 +83,8 @@ let mainHouse = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], //9
@@ -527,7 +528,9 @@ let tileRules;
 
 //timer values
 let count;
+let dialogueCount;
 let countMax = 30;
+let dialogueCountMax = 360
 
 function preload(){
   //background textures with texture, x size, and y size
@@ -595,7 +598,7 @@ function loadLevel() {
       let itemName = itemTypeName[itemID]
         //creates a new tile from the tile class and puts it in the current column
         if (itemID != 0){
-          items[tileX][tileY] = new Item(itemName,itemTextures[itemTexture], tileX, tileY, tileSize, tileSize, itemID);
+          items[tileX][tileY] = new Item(itemName,itemTextures[itemTexture], tileX, tileY, tileSize, itemID, itemDialogue[itemID]);
         }
         else{
           items[tileX][tileY] = ""
@@ -648,7 +651,7 @@ function draw() {
   }
 
   if (player.transition){
-    //called once per frame to make a 30 second timer
+    //stops the player moving for 30 frames after going through a door
     if (count === countMax) player.transition = false;
     else count ++
   }
@@ -657,6 +660,22 @@ function draw() {
   player.setDirection();
   player.move();
   player.interact();
+
+  //displays dialogue when item is picked up for 360 frames
+  if (player.dialogue == "empty"){
+    dialogueCount = 0
+  }
+  else{
+    if (dialogueCount === dialogueCountMax) player.dialogue = "empty";
+    else{
+      dialogueCount ++
+      textStyle(BOLD)
+      textSize(15)
+      textAlign(CENTER)
+      fill('white')
+      text(player.dialogue,336,350)
+    }
+  }
 }
 
 //creates the tile class
@@ -708,7 +727,7 @@ class Tile {
 }
 
 class Item {
-  constructor(name,texture,tileX, tileY, tileSize, itemID){
+  constructor(name,texture,tileX, tileY, tileSize, itemID, dialogue){
     //item texture
     this.texture = texture;
     //position on tile map
@@ -722,6 +741,7 @@ class Item {
     this.name = name;
     this.tileSize = tileSize; //sets the item size
     this.itemID = itemID; //Determines the type of item
+    this.dialogue = dialogue //dialogue for the item type
   }
 
   display(){
@@ -763,6 +783,8 @@ class Player {
     this.isMoving = false;
     this.speed = 2
     this.spriteDirection = 0
+
+    this.dialogue = "empty"
   }
 
   display(){
@@ -896,7 +918,6 @@ class Player {
         this.tileY = levels[currentLevel].startTiles[x][1]
       }
     }
-
     this.xPos = this.tileX * playerSizeX
     this.yPos = this.tileY * playerSizeX
   }
@@ -907,82 +928,47 @@ class Player {
       if (this.facing == "up"){
         let tileSelectedX = this.tileX 
         let tileSelectedY = this.tileY - 1
-
-        //checks if tile exists
-        if (tileSelectedX >= 0 && tileSelectedX < tilesX && tileSelectedY >= 0 && tileSelectedY < tilesY){
-          //if there is an item, it is removed from the item map
-          //and placed into the inventory
-          if (itemMap[tileSelectedY][tileSelectedX] != 0){
-
-            itemMap[tileSelectedY][tileSelectedX] = 0
-            let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
-            append(inventory,itemValue)
-            items[tileSelectedX][tileSelectedY] = ""
-            console.log("Inventory",inventory)
-          }
-        }
+        this.pickUp(tileSelectedX,tileSelectedY)
       }
 
       //Checks the tile below for items
       if (this.facing == "down"){
         let tileSelectedX = this.tileX 
         let tileSelectedY = this.tileY + 1
-        
-        //checks if tile exists
-        if (tileSelectedX >= 0 && tileSelectedX < tilesX && tileSelectedY >= 0 && tileSelectedY < tilesY){
-          //if there is an item, it is removed from the item map
-          //and placed into the inventory
-          if (itemMap[tileSelectedY][tileSelectedX] != 0){
-
-            itemMap[tileSelectedY][tileSelectedX] = 0
-            let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
-            append(inventory,itemValue)
-            items[tileSelectedX][tileSelectedY] = ""
-            console.log("Inventory",inventory)
-          }
-        }        
+        this.pickUp(tileSelectedX,tileSelectedY)
       }
 
       //Checks the tile to the left for items
       if (this.facing == "left"){
         let tileSelectedX = this.tileX - 1
         let tileSelectedY = this.tileY
-        
-        //checks if tile exists
-        if (tileSelectedX >= 0 && tileSelectedX < tilesX && tileSelectedY >= 0 && tileSelectedY < tilesY){
-          //if there is an item, it is removed from the item map
-          //and placed into the inventory
-          if (itemMap[tileSelectedY][tileSelectedX] != 0){
-
-            itemMap[tileSelectedY][tileSelectedX] = 0
-            let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
-            append(inventory,itemValue)
-            items[tileSelectedX][tileSelectedY] = ""
-            console.log("Inventory",inventory)
-          }
-        }
+        this.pickUp(tileSelectedX,tileSelectedY)
       }
 
       //Checks the tile to the right for items
       if (this.facing == "right"){
         let tileSelectedX = this.tileX + 1
         let tileSelectedY = this.tileY
-        
-        //checks if tile exists
-        if (tileSelectedX >= 0 && tileSelectedX < tilesX && tileSelectedY >= 0 && tileSelectedY < tilesY){
-          //if there is an item, it is removed from the item map
-          //and placed into the inventory
-          if (itemMap[tileSelectedY][tileSelectedX] != 0){
+        this.pickUp(tileSelectedX,tileSelectedY)
+      }
+    }
+  }
 
-            itemMap[tileSelectedY][tileSelectedX] = 0
-            let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
-            append(inventory,itemValue)
-            items[tileSelectedX][tileSelectedY] = ""
-            console.log("Inventory",inventory)
-          }
-        }
+  pickUp(tileSelectedX,tileSelectedY){
+    //checks if tile exists
+    if (tileSelectedX >= 0 && tileSelectedX < tilesX && tileSelectedY >= 0 && tileSelectedY < tilesY){
+      //if there is an item, it is removed from the item map
+      //and placed into the inventory
+      if (itemMap[tileSelectedY][tileSelectedX] != 0){
+
+        itemMap[tileSelectedY][tileSelectedX] = 0
+        let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
+        append(inventory,itemValue)
+        items[tileSelectedX][tileSelectedY] = ""
+        console.log("Inventory",inventory)
+        dialogueCount = 0
+        this.dialogue = "You have picked up a " + itemValue[0]
       }
     }
   }
 }
-
