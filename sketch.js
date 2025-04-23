@@ -17,7 +17,8 @@ let assetTileMap = [];
 let items = [];
 let itemTextures = [];
 let itemTypeName = ["","Key","Test"]
-let itemDialogue = ["","You have picked up a key","You have picked up a test object"]
+let dialogueTest;
+let itemDialogue = [""]
 let inventory = [];
 
 //LEVEL DATA OBJECTS
@@ -528,9 +529,11 @@ let tileRules;
 
 //timer values
 let count;
-let dialogueCount;
+let dialogueCount; //which phase the dialogue of an item is on
+let dialogueEnd; //which phase the dialogue ends on and the text closes
+let dialogueList = []; //the list of dialogue for each item
 let countMax = 30;
-let dialogueCountMax = 360
+let dialogueOn = false
 
 function preload(){
   //background textures with texture, x size, and y size
@@ -565,6 +568,9 @@ function preload(){
   itemTextures[0] = loadImage('Resources/Images/Out_Of_Bounds.png')
   itemTextures[1] = loadImage('Resources/Images/Items/key.png')
   itemTextures[2] = loadImage('Resources/Images/collision_Tile.png')
+
+  itemDialogue[1] = loadStrings('Resources/KeyDialogue.txt')
+  itemDialogue[2] = loadStrings('Resources/TestDialogue.txt')
 }
 
 function setup() {
@@ -666,14 +672,16 @@ function draw() {
     dialogueCount = 0
   }
   else{
-    if (dialogueCount === dialogueCountMax) player.dialogue = "empty";
+    if (dialogueOn == false) player.dialogue = "empty";
     else{
-      dialogueCount ++
+      stroke("white")
+      fill(0,0,0,150)
+      rect(0,330,672,384)
+      noStroke()
       textStyle(BOLD)
       textSize(15)
-      textAlign(CENTER)
       fill('white')
-      text(player.dialogue,336,350)
+      text(player.dialogue,5,345)
     }
   }
 }
@@ -966,9 +974,28 @@ class Player {
         append(inventory,itemValue)
         items[tileSelectedX][tileSelectedY] = ""
         console.log("Inventory",inventory)
+        dialogueOn = true
+        this.transition = true
+        dialogueList = itemDialogue[itemValue[1]]
         dialogueCount = 0
-        this.dialogue = "You have picked up a " + itemValue[0]
+        dialogueEnd = dialogueList.length - 1
+        console.log(dialogueEnd)
+        this.dialogue = dialogueList[dialogueCount]
       }
+    }
+  }
+}
+
+function keyPressed(){
+  if (key === "e"){
+    if (dialogueOn && dialogueCount == dialogueEnd){
+      dialogueOn = false
+      player.transition = false
+    }
+    
+    if (dialogueOn){
+      dialogueCount ++
+      player.dialogue = dialogueList[dialogueCount]
     }
   }
 }
