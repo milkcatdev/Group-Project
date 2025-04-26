@@ -537,15 +537,15 @@ let dialogueOn = false
 
 function preload(){
   //background textures with texture, x size, and y size
-  textures[0] = [loadImage('Resources/Images/HouseTextures/hallwayFloor.png'),tileSize,tileSize]
-  textures[1] = [loadImage('Resources/Images/HouseTextures/wall.png'),tileSize,tileSize]
+  textures[0] = [loadImage('Resources/Images/HouseTextures/Tiles/hallwayFloor.png'),tileSize,tileSize]
+  textures[1] = [loadImage('Resources/Images/HouseTextures/Tiles/wall.png'),tileSize,tileSize]
   textures[2] = [loadImage('Resources/Images/Out_Of_Bounds.png'),tileSize,tileSize]
-  textures[3] = [loadImage('Resources/Images/HouseTextures/doorLeft.png'),tileSize,tileSize]
-  textures[4] = [loadImage('Resources/Images/HouseTextures/doorDown.png'),tileSize,tileSize]
-  textures[5] = [loadImage('Resources/Images/HouseTextures/wallTrim.png'),tileSize,tileSize]
-  textures[6] = [loadImage('Resources/Images/HouseTextures/kitchenFloor.png'),tileSize,tileSize]
-  textures[7] = [loadImage('Resources/Images/HouseTextures/grasstile_plain.png'),tileSize,tileSize]
-  textures[8] = [loadImage('Resources/Images/HouseTextures/doorRight.png'),tileSize,tileSize]
+  textures[3] = [loadImage('Resources/Images/HouseTextures/Tiles/doorLeft.png'),tileSize,tileSize]
+  textures[4] = [loadImage('Resources/Images/HouseTextures/Tiles/doorDown.png'),tileSize,tileSize]
+  textures[5] = [loadImage('Resources/Images/HouseTextures/Tiles/wallTrim.png'),tileSize,tileSize]
+  textures[6] = [loadImage('Resources/Images/HouseTextures/Tiles/kitchenFloor.png'),tileSize,tileSize]
+  textures[7] = [loadImage('Resources/Images/HouseTextures/Tiles/grasstile_plain.png'),tileSize,tileSize]
+  textures[8] = [loadImage('Resources/Images/HouseTextures/Tiles/doorRight.png'),tileSize,tileSize]
   textures[9] = [loadImage('Resources/Images/path.png'),tileSize,tileSize]
   textures[10] = [loadImage('Resources/Images/road.png'),tileSize,tileSize]
   textures[11] = [loadImage('Resources/Images/SupermarketTextures/supermarketFloor.png'),tileSize,tileSize]
@@ -554,9 +554,9 @@ function preload(){
 
   //assets
   assets[0] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize]
-  assets[1] = [loadImage('Resources/Images/HouseTextures/dinnerTable.png'),96,96]
-  assets[2] = [loadImage('Resources/Images/HouseTextures/plant.png'),32,64]
-  assets[3] = [loadImage('Resources/Images/HouseTextures/door.png'),tileSize,64]
+  assets[1] = [loadImage('Resources/Images/HouseTextures/Furniture/dinnerTable.png'),96,96]
+  assets[2] = [loadImage('Resources/Images/HouseTextures/Furniture/plant.png'),32,64]
+  assets[3] = [loadImage('Resources/Images/HouseTextures/Furniture/door.png'),tileSize,64]
 
   //sprite
   playerSprites[0] = loadImage('Resources/Images/CharacterSprites/AlbaDown.png')
