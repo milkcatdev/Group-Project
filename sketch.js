@@ -16,7 +16,7 @@ let assetTileMap = [];
 //Items and Inventory
 let items = [];
 let itemTextures = [];
-let itemTypeName = ["","Key","Test"]
+let itemTypeName = ["","Desk","Cupboard"]
 let dialogueTest;
 let itemDialogue = [""]
 let inventory = [];
@@ -85,17 +85,17 @@ let mainHouse = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
     ],
 
     //tile positions when the player comes from each door
   startTiles: [
-              [3,6,1], //From Alba's Room
+              [3,6,0], //From Alba's Room
               [1,7,2], //From the Garden
               [11,3,3], //From Laura's Room
               [11,10,4] //From Street
@@ -103,7 +103,7 @@ let mainHouse = {
 
     //information to determine which room a door leads to
   doorTransitions: [
-                    [3,5,1], //To Alba's Room
+                    [3,5,0], //To Alba's Room
                     [0,7,2], //To the Garden
                     [11,2,3], //To Laura's Room
                     [11,11,4] //From Street
@@ -135,14 +135,14 @@ let albaRoom = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
-      [0, 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 11, 0, 0, 0, 10, 0, 0, 0, 0, 0], //3
+      [0, 0, 0, 0, 0,13, 0, 0, 0, 0, 0,11, 0, 0, 0,10, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0,15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
-      [0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
+      [0, 0, 0,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0,19,19, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
     ],
 
@@ -153,13 +153,13 @@ let albaRoom = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //1
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //3
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //4   1st VALUE (y)
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //5
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //6
+    [1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1], //4   1st VALUE (y)
+    [1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1], //5
+    [1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1], //6
     [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //7
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //8
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //9
-    [1, 1, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //10
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //8
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //9
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //10
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]  //11
   ],
 
@@ -170,24 +170,24 @@ let albaRoom = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
     ],
 
     //tile positions when the player comes from each door
   startTiles: [
-              [8,9,0] //from the main house
+              [8,9,1] //from the main house
               ],
 
     //information to determine which room a door leads to
   doorTransitions: [
-                    [8,10,0] //to the main house
+                    [8,10,1] //to the main house
                     ]
 }
 
@@ -263,12 +263,12 @@ let garden = {
 
     //tile positions when the player comes from each door
   startTiles: [
-              [19,5,0] //from the main house
+              [19,5,1] //from the main house
               ],
 
     //information to determine which room a door leads to
   doorTransitions: [
-                    [20,5,0] //to the main house
+                    [20,5,1] //to the main house
                     ]
 }
 
@@ -287,7 +287,7 @@ let lauraRoom = {
     [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //7
     [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //8
     [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //9
-    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //10
+    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2], //10
     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]  //11
   ],
 
@@ -297,11 +297,11 @@ let lauraRoom = {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
-    [0, 0, 0, 0, 10, 12, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0], //3
+    [0, 0, 0, 0,10,12, 0, 0, 0, 0, 0, 0, 0,14, 0, 0, 0, 0, 0, 0, 0], //3
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0], //7
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,16, 0, 0, 0, 0, 0, 0, 0], //7
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
@@ -315,9 +315,9 @@ let lauraRoom = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //1
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //3
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //4   1st VALUE (y)
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //5
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //6
+    [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1], //4   1st VALUE (y)
+    [1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1], //5
+    [1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1], //6
     [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //7
     [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //8
     [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //9
@@ -332,7 +332,7 @@ let lauraRoom = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
@@ -344,12 +344,12 @@ let lauraRoom = {
 
     //tile positions when the player comes from each door
   startTiles: [
-              [10,9,0] //from the main house
+              [10,9,1] //from the main house
               ],
 
     //information to determine which room a door leads to
   doorTransitions: [
-                    [10,10,0] //to the main house
+                    [10,10,1] //to the main house
                     ]
 }
 
@@ -425,14 +425,14 @@ let street = {
 
     //tile positions when the player comes from each door
   startTiles: [
-              [2,2,0], //from the main house
+              [2,2,1], //from the main house
               [10,2,5], //from the supermarket(left)
               [10,2,5] //from the supermarket(right)
               ],
 
     //information to determine which room a door leads to
   doorTransitions: [
-                    [2,1,0], //to the main house
+                    [2,1,1], //to the main house
                     [10,1,5] //to the supermarket
                     ]
 }
@@ -521,7 +521,7 @@ let superMarket = {
 
 //Level Control Variables
 
-let levels = [mainHouse,albaRoom,garden,lauraRoom,street,superMarket];
+let levels = [albaRoom,mainHouse,garden,lauraRoom,street,superMarket];
 let currentLevel = 0;
 let backgroundMap;
 let assetMap;
@@ -555,15 +555,15 @@ function preload(){
   //assets
   assets[0] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize]
   assets[1] = [loadImage('Resources/Images/HouseTextures/Furniture/dinnerTable.png'),96,96]
-  assets[2] = [loadImage('Resources/Images/HouseTextures/Furniture/plant.png'),32,64]
+  assets[2] = [loadImage('Resources/Images/HouseTextures/Furniture/plant.png'),tileSize,64]
   assets[3] = [loadImage('Resources/Images/HouseTextures/Furniture/door.png'),tileSize,64]
   assets[4] = [loadImage('Resources/Images/HouseTextures/Furniture/doorLeft.png'),tileSize,tileSize]
   assets[5] = [loadImage('Resources/Images/HouseTextures/Furniture/doorDown.png'),tileSize,tileSize]
   assets[6] = [loadImage('Resources/Images/HouseTextures/Furniture/doorRight.png'),tileSize,tileSize]
-  assets[7] = [loadImage('Resources/Images/HouseTextures/Furniture/kitchen counter.png'),32,32]
-  assets[8] = [loadImage('Resources/Images/HouseTextures/Furniture/kitchen sink.png'),32,64]
-  assets[9] = [loadImage('Resources/Images/HouseTextures/Furniture/nightstand.png'),32,32]
-  assets[10] = [loadImage('Resources/Images/HouseTextures/Furniture/nightstand_lamp.png'),32,64]
+  assets[7] = [loadImage('Resources/Images/HouseTextures/Furniture/kitchen counter.png'),tileSize,tileSize]
+  assets[8] = [loadImage('Resources/Images/HouseTextures/Furniture/kitchen sink.png'),tileSize,64]
+  assets[9] = [loadImage('Resources/Images/HouseTextures/Furniture/nightstand.png'),tileSize,tileSize]
+  assets[10] = [loadImage('Resources/Images/HouseTextures/Furniture/nightstand_lamp.png'),tileSize,64]
   assets[11] = [loadImage('Resources/Images/HouseTextures/Furniture/alba bed.png'),128,128]
   assets[12] = [loadImage('Resources/Images/HouseTextures/Furniture/laura bed.png'),128,128]
   assets[13] = [loadImage('Resources/Images/HouseTextures/Furniture/albadesk.png'),96,128]
@@ -572,6 +572,7 @@ function preload(){
   assets[16] = [loadImage('Resources/Images/HouseTextures/Furniture/pink rug.png'),96,64]
   assets[17] = [loadImage('Resources/Images/SupermarketTextures/Tiles/storewallleft.png'),256,64]
   assets[18] = [loadImage('Resources/Images/SupermarketTextures/Tiles/storewallright.png'),320,64]
+  assets[19] = [loadImage('Resources/Images/HouseTextures/Furniture/Cupboard.png'),tileSize,tileSize]
 
   //sprite
   playerSprites[0] = loadImage('Resources/Images/CharacterSprites/AlbaDown.png')
@@ -580,19 +581,19 @@ function preload(){
   playerSprites[3] = loadImage('Resources/Images/CharacterSprites/AlbaRight.png')
 
   //item textures
-  itemTextures[0] = loadImage('Resources/Images/Out_Of_Bounds.png')
-  itemTextures[1] = loadImage('Resources/Images/Items/key.png')
-  itemTextures[2] = loadImage('Resources/Images/collision_Tile.png')
+  itemTextures[0] = [loadImage('Resources/Images/Out_Of_Bounds.png'),tileSize,tileSize]
+  itemTextures[1] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize]
+  itemTextures[2] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize]
 
-  itemDialogue[1] = loadStrings('Resources/KeyDialogue.txt')
-  itemDialogue[2] = loadStrings('Resources/TestDialogue.txt')
+  itemDialogue[1] = loadStrings('Resources/DeskDialogue.txt')
+  itemDialogue[2] = loadStrings('Resources/CupboardDialogue.txt')
 }
 
 function setup() {
   createCanvas(672,384);
 
   loadLevel();
-  player = new Player(playerSprites, 3, 7, playerSizeX,playerSizeY,tileRules);
+  player = new Player(playerSprites, 9, 7, playerSizeX,playerSizeY,tileRules);
 }
 
 function loadLevel() {
@@ -619,7 +620,7 @@ function loadLevel() {
       let itemName = itemTypeName[itemID]
         //creates a new tile from the tile class and puts it in the current column
         if (itemID != 0){
-          items[tileX][tileY] = new Item(itemName,itemTextures[itemTexture], tileX, tileY, tileSize, itemID, itemDialogue[itemID]);
+          items[tileX][tileY] = new Item(itemName,itemTextures[itemTexture][0], tileX, tileY, itemTextures[itemTexture][1], itemTextures[itemTexture][2], itemID, itemDialogue[itemID]);
         }
         else{
           items[tileX][tileY] = ""
@@ -640,7 +641,7 @@ function makeTileMap(mapType,textureMap,textureType) {
       //Set the texture for the tile
       let texture = textureMap[tileY][tileX];
       //creates a new tile from the tile class and puts it in the current column
-      mapType[tileX][tileY] = new Tile(textureType[texture][0], tileX, tileY, textureType[texture][1], textureType[texture][2], textureType[texture][3], textureType[texture][4], tileID);
+      mapType[tileX][tileY] = new Tile(textureType[texture][0], tileX, tileY, textureType[texture][1], textureType[texture][2], tileID);
       tileID++;
     }
   }
@@ -671,7 +672,7 @@ function draw() {
     }
   }
 
-  if (player.transition){
+  if (player.transition && dialogueOn == false){
     //stops the player moving for 30 frames after going through a door
     if (count === countMax) player.transition = false;
     else count ++
@@ -681,8 +682,9 @@ function draw() {
   player.setDirection();
   player.move();
   player.interact();
+  player.checkDoorProgress();
 
-  //displays dialogue when item is picked up for 360 frames
+  //displays dialogue when item is picked up
   if (player.dialogue == "empty"){
     dialogueCount = 0
   }
@@ -694,16 +696,16 @@ function draw() {
       rect(0,330,672,384)
       noStroke()
       textStyle(BOLD)
-      textSize(15)
+      textSize(13)
       fill('white')
-      text(player.dialogue,5,345)
+      text(player.dialogue,5,335,667)
     }
   }
 }
 
 //creates the tile class
 class Tile {
-  constructor(texture,tileX, tileY, tileSizeX, tileSizeY, alignmentX, alignmentY, tileID){
+  constructor(texture,tileX, tileY, tileSizeX, tileSizeY, tileID){
     //tile texture
     this.texture = texture;
     //position on tile map
@@ -716,8 +718,6 @@ class Tile {
     this.tileSizeX = tileSizeX; //sets the tile size
     this.tileSizeY = tileSizeY; //sets the tile size
     this.tileID = tileID; //sets the tileID number
-    this.alignmentX = alignmentX //alignment of tiles in X
-    this.alignmentY = alignmentY //alignment of tiles in Y
   }
 
   display(){
@@ -750,7 +750,7 @@ class Tile {
 }
 
 class Item {
-  constructor(name,texture,tileX, tileY, tileSize, itemID, dialogue){
+  constructor(name,texture,tileX, tileY, tileSizeX, tileSizeY, itemID, dialogue){
     //item texture
     this.texture = texture;
     //position on tile map
@@ -762,14 +762,15 @@ class Item {
 
     //itemInfo
     this.name = name;
-    this.tileSize = tileSize; //sets the item size
+    this.tileSizeX = tileSizeX; //sets the item size
+    this.tileSizeY = tileSizeY; //sets the item size
     this.itemID = itemID; //Determines the type of item
     this.dialogue = dialogue //dialogue for the item type
   }
 
   display(){
     noStroke()
-    image(this.texture,this.xPos,this.yPos,this.tileSize,this.tileSize)
+    image(this.texture,this.xPos,this.yPos,this.tileSizeX,this.tileSizeY)
   }
 }
 
@@ -931,6 +932,12 @@ class Player {
     }
   }
 
+  checkDoorProgress(){
+    if (inventory.length >= 2){
+      albaRoom.tileRules[10][8] = 2
+    }
+  }
+
   //sets start position in each level
   setPlayerPosition(previousLevel){
     //goes through start tiles to find out which tile to start the player on
@@ -994,7 +1001,6 @@ class Player {
         dialogueList = itemDialogue[itemValue[1]]
         dialogueCount = 0
         dialogueEnd = dialogueList.length - 1
-        console.log(dialogueEnd)
         this.dialogue = dialogueList[dialogueCount]
       }
     }
@@ -1002,7 +1008,7 @@ class Player {
 }
 
 function keyPressed(){
-  if (key === "e"){
+  if (keyCode === 69){
     if (dialogueOn && dialogueCount == dialogueEnd){
       dialogueOn = false
       player.transition = false
