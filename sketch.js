@@ -19,7 +19,13 @@ let itemTextures = [];
 let itemTypeName = ["","Desk","Cupboard","Teddybear","Clock","Magnet","Note"]
 let dialogueTest;
 let itemDialogue = [""]
+let albaDialogue = []
+let albaDialogueCount = -1
 let inventory = [];
+
+//progress points to bring up dialogue and unlock doors when needed
+progressPoint1 = false
+progressPoint2 = false
 
 //menu screen variables
 let gameStarted = false
@@ -524,19 +530,22 @@ let backgroundMap;
 let assetMap;
 let tileRules;
 
-//timer values
-let count;
+//dialogueValues
 let dialogueCount; //which phase the dialogue of an item is on
 let dialogueEnd; //which phase the dialogue ends on and the text closes
 let dialogueList = []; //the list of dialogue for each item
-let countMax = 30;
+let dialogueColour; //determines the colour of dialogue
 let dialogueOn = false
+
+//timer values
+let count;
+let countMax = 30;
 
 //font
 let gamefont;
 let mainthemebgm;
-function preload(){
 
+function preload(){
   //music
   mainthemebgm = loadSound('Resources/Audio/Music/MainTheme.ogg');
   mainthemebgm.setVolume(0.5);
@@ -624,18 +633,22 @@ function preload(){
   itemTextures[5] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize] //Magnet interaction
   itemTextures[6] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize] //Note interaction
 
-  itemDialogue[1] = loadStrings('Resources/Dialogue/DeskDialogue.txt')
-  itemDialogue[2] = loadStrings('Resources/Dialogue/CupboardDialogue.txt')
-  itemDialogue[3] = loadStrings('Resources/Dialogue/TeddybearDialogue.txt')
-  itemDialogue[4] = loadStrings('Resources/Dialogue/ClockDialogue.txt')
-  itemDialogue[5] = loadStrings('Resources/Dialogue/MagnetDialogue.txt')
-  itemDialogue[6] = loadStrings('Resources/Dialogue/NoteDialogue.txt')
+  itemDialogue[1] = loadStrings('Resources/Dialogue/ItemDialogue/DeskDialogue.txt')
+  itemDialogue[2] = loadStrings('Resources/Dialogue/ItemDialogue/CupboardDialogue.txt')
+  itemDialogue[3] = loadStrings('Resources/Dialogue/ItemDialogue/TeddybearDialogue.txt')
+  itemDialogue[4] = loadStrings('Resources/Dialogue/ItemDialogue/ClockDialogue.txt')
+  itemDialogue[5] = loadStrings('Resources/Dialogue/ItemDialogue/MagnetDialogue.txt')
+  itemDialogue[6] = loadStrings('Resources/Dialogue/ItemDialogue/NoteDialogue.txt')
+
+  albaDialogue[0] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue1.txt')
+  albaDialogue[1] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue2.txt')
+
 }
 
 function setup() {
   createCanvas(672,384);
   loadLevel();
-  player = new Player(playerSprites, 9, 7, playerSizeX,playerSizeY,tileRules);
+  player = new Player(playerSprites, 10, 5, playerSizeX,playerSizeY,tileRules);
   //set font to custom pixel font
   textFont(gamefont);
   
@@ -755,7 +768,7 @@ function draw() {
       noStroke()
       textStyle(BOLD)
       textSize(9)
-      fill('white')
+      fill(dialogueColour)
       text(player.dialogue,0,height-37,667)
     }
   }
@@ -1006,15 +1019,29 @@ class Player {
   checkProgress(){
     //opens doors as the player picks up more items
     let inventorySize = inventory.length
-    if (inventorySize >= 2){
+    if (inventorySize == 2 && !dialogueOn && !progressPoint1){
+      progressPoint1 = true
       albaRoom.tileRules[10][8] = 2
+      this.displayAlbaDialogue()
     }
-    if (inventorySize >= 4){
+    if (inventorySize == 4){
       lauraRoom.tileRules[10][10] = 2
     }
-    if (inventorySize >= 6){
+    if (inventorySize == 6){
       mainHouse.tileRules[11][11] = 2
     }
+  }
+
+  //displays the next of alba's dialogue to be said
+  displayAlbaDialogue(){
+    albaDialogueCount ++
+    dialogueOn = true
+    this.transition = true
+    dialogueColour = "lightgreen"
+    dialogueList = albaDialogue[albaDialogueCount]
+    dialogueCount = 0
+    dialogueEnd = dialogueList.length - 1
+    this.dialogue = dialogueList[dialogueCount]
   }
   //sets start position in each level
   setPlayerPosition(previousLevel){
@@ -1075,6 +1102,7 @@ class Player {
         items[tileSelectedX][tileSelectedY] = ""
         dialogueOn = true
         this.transition = true
+        dialogueColour = "white"
         dialogueList = itemDialogue[itemValue[1]]
         dialogueCount = 0
         dialogueEnd = dialogueList.length - 1
@@ -1103,4 +1131,5 @@ function startGame(){
   gameStarted = true
   buttonPressed = true
   StartButton.remove()
+  player.displayAlbaDialogue()
 }
