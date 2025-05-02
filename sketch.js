@@ -548,7 +548,6 @@ let mainthemebgm;
 function preload(){
   //music
   mainthemebgm = loadSound('Resources/Audio/Music/MainTheme.ogg');
-  mainthemebgm.setVolume(0.5);
   //custom font
   gamefont = loadFont('Resources/Fonts/dogicapixel.otf');
   //cover image for title screen
@@ -651,6 +650,7 @@ function setup() {
   player = new Player(playerSprites, 10, 5, playerSizeX,playerSizeY,tileRules);
   //set font to custom pixel font
   textFont(gamefont);
+  mainthemebgm.setVolume(0.5);
   
 }
 
