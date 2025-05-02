@@ -532,7 +532,19 @@ let dialogueList = []; //the list of dialogue for each item
 let countMax = 30;
 let dialogueOn = false
 
+//font
+let gamefont;
+let mainthemebgm;
 function preload(){
+
+  //music
+  mainthemebgm = loadSound('Resources/Audio/Music/MainTheme.ogg');
+  mainthemebgm.setVolume(0.5);
+  //custom font
+  gamefont = loadFont('Resources/Fonts/dogicapixel.otf');
+  //cover image for title screen
+  frontcover = loadImage('Resources/Images/frontcover.png');
+
   //background textures with texture, x size, and y size
   textures[1] = [loadImage('Resources/Images/HouseTextures/Tiles/wall.png'),tileSize,tileSize]
   textures[0] = [loadImage('Resources/Images/HouseTextures/Tiles/hallwayFloor.png'),tileSize,tileSize]
@@ -622,9 +634,11 @@ function preload(){
 
 function setup() {
   createCanvas(672,384);
-
   loadLevel();
   player = new Player(playerSprites, 9, 7, playerSizeX,playerSizeY,tileRules);
+  //set font to custom pixel font
+  textFont(gamefont);
+  
 }
 
 function loadLevel() {
@@ -665,12 +679,12 @@ function loadLevel() {
     StartButton = createButton("Start")
     StartButton.style('font-size', '40px');
     StartButton.style('color', 'white');
-    StartButton.style('background-color','black')
-    StartButton.style('border-radius','40px')
-    StartButton.style('border-color','white')
-    StartButton.position(width/2-90,260)
-    StartButton.size(180,60)
-    StartButton.mousePressed(startGame)
+    StartButton.style('background-color','transparent');
+    StartButton.style('border-radius','40px');
+    StartButton.style('border-color','white');
+    StartButton.position(width/2+75,260);
+    StartButton.size(180,60);
+    StartButton.mousePressed(startGame);
   }
 }
 
@@ -740,21 +754,23 @@ function draw() {
       rect(0,330,672,384)
       noStroke()
       textStyle(BOLD)
-      textSize(13)
+      textSize(9)
       fill('white')
-      text(player.dialogue,0,335,667)
+      text(player.dialogue,0,height-37,667)
     }
   }
 
   if (gameStarted == false){
     
     fill(0)
+    
     square(0,0,700)
     fill(255)
-    textSize(60)
+    image(frontcover,0,0,width,height);
+    textSize(30)
     textStyle(BOLD)
     textAlign(CENTER)
-    text("¿Dónde esta Laura?",width/2,160)
+    text("¿Dónde está \n Laura?",500,160)
   }
 }
 
@@ -1083,6 +1099,7 @@ function keyPressed(){
 }
 
 function startGame(){
+  mainthemebgm.loop();
   gameStarted = true
   buttonPressed = true
   StartButton.remove()
