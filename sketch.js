@@ -791,12 +791,12 @@ function draw() {
       stroke("white")
       fill(0,0,0,150)
       rect(0,330,672,384)
-      noStroke()
       textStyle(BOLD)
       textSize(9)
       textAlign(CENTER)
       fill(dialogueColour)
       stroke(dialogueColour)
+      strokeWeight(0.6)
       text(player.dialogue,0,height-37,667)
     }
   }
@@ -805,6 +805,7 @@ function draw() {
   if (currentObjective >= 0){
     fill(0,0,0,150)
     stroke('white')
+    strokeWeight(0.6)
     rect(20,20,200,50)
     fill(255)
     textSize(9)
