@@ -22,10 +22,19 @@ let itemDialogue = [""]
 let albaDialogue = []
 let albaDialogueCount = -1
 let inventory = [];
+let objectiveList = []
+let currentObjective = -1
 
 //progress points to bring up dialogue and unlock doors when needed
 progressPoint1 = false
 progressPoint2 = false
+progressPoint3 = false
+progressPoint4 = false
+progressPoint5 = false
+progressPoint6 = false
+progressPoint7 = false
+progressPoint8 = false
+progressPoint9 = false
 
 //menu screen variables
 let gameStarted = false
@@ -78,7 +87,7 @@ let mainHouse = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1], //3
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //4   1st VALUE (y)
     [1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], //5
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1], //6
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1], //6
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0], //8
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0], //9
@@ -469,7 +478,7 @@ let graveyard = {
     //       2nd Value (x)
     // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
-      [0, 0, 0, 0,38, 0, 0, 0, 0, 0, 0,39, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
+      [0, 0, 0, 0,44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
       [0, 0, 0, 0, 0,34, 0,35, 0, 0, 0, 0, 0,35, 0,35, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
@@ -507,11 +516,11 @@ let graveyard = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
-      [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
-      [0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
     ],
@@ -523,12 +532,13 @@ let graveyard = {
 }
 
 //Level Control Variables
-
 let levels = [albaRoom,mainHouse,lauraRoom,street,superMarket,graveyard];
 let currentLevel = 0;
 let backgroundMap;
 let assetMap;
 let tileRules;
+let doorX;
+let doorY;
 
 //dialogueValues
 let dialogueCount; //which phase the dialogue of an item is on
@@ -615,7 +625,7 @@ function preload(){
   assets[41] = [loadImage('Resources/Images/HouseTextures/Furniture/laurawindow.png'),128,64]
   assets[42] = [loadImage('Resources/Images/HouseTextures/Furniture/kitchenwindow.png'),96,64]
   assets[43] = [loadImage('Resources/Images/HouseTextures/Furniture/welcomemat.png'),96,tileSize]
-
+  assets[44] = [loadImage('Resources/Images/GraveyardTextures/graveyardbushes.png'),416,64]
 
   //sprite
   playerSprites[0] = loadImage('Resources/Images/CharacterSprites/AlbaDown.png')
@@ -641,7 +651,23 @@ function preload(){
 
   albaDialogue[0] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue1.txt')
   albaDialogue[1] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue2.txt')
+  albaDialogue[2] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue3.txt')
+  albaDialogue[3] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue4.txt')
+  albaDialogue[4] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue5.txt')
+  albaDialogue[5] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue6.txt')
+  albaDialogue[6] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue7.txt')
+  albaDialogue[7] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue8.txt')
+  albaDialogue[8] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue9.txt')
 
+  objectiveList[0] = loadStrings('Resources/Dialogue/ObjectiveList/Objective1.txt')
+  objectiveList[1] = loadStrings('Resources/Dialogue/ObjectiveList/Objective2.txt')
+  objectiveList[2] = loadStrings('Resources/Dialogue/ObjectiveList/Objective3.txt')
+  objectiveList[3] = loadStrings('Resources/Dialogue/ObjectiveList/Objective4.txt')
+  objectiveList[4] = loadStrings('Resources/Dialogue/ObjectiveList/Objective5.txt')
+  objectiveList[5] = loadStrings('Resources/Dialogue/ObjectiveList/Objective6.txt')
+  objectiveList[6] = loadStrings('Resources/Dialogue/ObjectiveList/Objective7.txt')
+  objectiveList[7] = loadStrings('Resources/Dialogue/ObjectiveList/Objective8.txt')
+  objectiveList[8] = loadStrings('Resources/Dialogue/ObjectiveList/Objective9.txt')
 }
 
 function setup() {
@@ -768,23 +794,36 @@ function draw() {
       noStroke()
       textStyle(BOLD)
       textSize(9)
+      textAlign(CENTER)
       fill(dialogueColour)
+      stroke(dialogueColour)
       text(player.dialogue,0,height-37,667)
     }
   }
 
+  //displays 
+  if (currentObjective >= 0){
+    fill(0,0,0,150)
+    stroke('white')
+    rect(20,20,200,50)
+    fill(255)
+    textSize(9)
+    textAlign(LEFT)
+    text("Objective:",25,35)
+    textSize(8)
+    text(objectiveList[currentObjective],25,52,180)
+  }
+
+  //displays main menu
   if (gameStarted == false){
     
-    fill(0)
-    
-    square(0,0,700)
     fill(255)
     image(frontcover,0,0,width,height);
     textSize(30)
-    textStyle(BOLD)
     textAlign(CENTER)
     text("¿Dónde está \n Laura?",500,160)
   }
+
 }
 
 //creates the tile class
@@ -971,8 +1010,6 @@ class Player {
           if (tileRules[nextTileY][nextTileX] === 2){ //transitions to new level through doors
             let previousLevel;
             let nextLevel;
-            let doorX;
-            let doorY;
             //goes through door transition list until it finds which door has been used to 
             //find out which room the door goes to
             for (let x = 0; x < levels[currentLevel].doorTransitions.length; x++){
@@ -1017,18 +1054,57 @@ class Player {
   }
 
   checkProgress(){
-    //opens doors as the player picks up more items
-    let inventorySize = inventory.length
-    if (inventorySize == 2 && !dialogueOn && !progressPoint1){
-      progressPoint1 = true
-      albaRoom.tileRules[10][8] = 2
-      this.displayAlbaDialogue()
-    }
-    if (inventorySize == 4){
-      lauraRoom.tileRules[10][10] = 2
-    }
-    if (inventorySize == 6){
-      mainHouse.tileRules[11][11] = 2
+    if (gameStarted){
+      //console.log(doorX,doorY)
+      //opens doors as the player picks up more items
+      let inventorySize = inventory.length
+      if (inventorySize == 0 && !dialogueOn && !progressPoint1){ //Desk and cupboard objective displays once
+        progressPoint1 = true                                    //the dialogue is closed
+        currentObjective ++
+      }
+      if (inventorySize == 2 && !dialogueOn && !progressPoint2){ //opens the door to leave and makes
+        progressPoint2 = true                                    //alba speak after 2 items have been
+        albaRoom.tileRules[10][8] = 2                            //interacted with, also brings up next
+        this.displayAlbaDialogue()                               //objective to leave the room
+        currentObjective ++
+      }
+      if (doorX == 8 && doorY == 10 && currentLevel == 1 && !progressPoint3){ //brings up next alba dialogue
+        this.displayAlbaDialogue()                                            //and next objective to check laura's room
+        currentObjective ++
+        progressPoint3 = true
+      }
+      if (doorX == 11 && doorY == 11 && currentLevel == 2 && !progressPoint4){ //brings up next alba dialogue
+        this.displayAlbaDialogue()                                             //and next objective to check the teddy bear
+        currentObjective ++
+        progressPoint4 = true
+      }
+      if (inventorySize == 3 && !dialogueOn && !progressPoint5){ //brings up the next alba dialogue and next objective
+        this.displayAlbaDialogue()                               //to check the clock
+        currentObjective ++
+        progressPoint5 = true
+      }
+      if (inventorySize == 4 && !dialogueOn && !progressPoint6){ //brings up next alba dialogue and next objective
+        lauraRoom.tileRules[10][10] = 2                          //to leave the room
+        this.displayAlbaDialogue()                               
+        currentObjective ++
+        progressPoint6 = true
+      }
+      if (doorX == 10 && doorY == 10 && currentLevel == 1 && !progressPoint7){ //brings up next alba dialogue
+        this.displayAlbaDialogue()                                             //and next objective to go to the fridge
+        currentObjective ++
+        progressPoint7 = true
+      }
+      if (inventorySize == 5 && !dialogueOn && !progressPoint8){ //brings up the next alba dialogue and next objective
+        this.displayAlbaDialogue()                               //to check the table
+        currentObjective ++
+        progressPoint8 = true
+      }
+      if (inventorySize == 6 && !dialogueOn && !progressPoint9){ //brings up next alba dialogue and next objectuce
+        mainHouse.tileRules[11][11] = 2                          //to leave the house
+        this.displayAlbaDialogue()                               //to check the table
+        currentObjective ++
+        progressPoint9 = true
+      }
     }
   }
 
