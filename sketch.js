@@ -20,10 +20,12 @@ let assetTileMap = [];
 //Items and Inventory
 let items = [];
 let itemTextures = [];
-let itemTypeName = ["","Desk","Cupboard","Teddybear","Clock","Magnet","Note"]
+let itemTypeName = ["","Desk","Cupboard","Teddybear","Clock","Magnet","Note","shopper1","shopper2","shopper3","cashier"]
 let itemDialogue = [""]          //list of dialogue for interactables
 let albaDialogue = []            //list of alba's dialogue
 let albaDialogueCount = -1       //index of alba's dialogue text files to be displayed
+let npcDialogue = []            //list of shopper's dialogue
+let npcDialogueCount = -1       //index of alba's dialogue text files to be displayed
 let inventory = [];
 let objectiveList = []           //list of objectives
 let currentObjective = -1        //index of objective to be displayed
@@ -33,7 +35,8 @@ let currentCharacterPicture;     //picture type list of current character that i
 let characterPictures = [];      //list of all character pictures
 let currentPicture;              //current picture being displayed
 let albaPictureType = [[0],[0],[0],[1],[1,1],[1,1],[1,0],[1,0],[0,1,0],[0,0]
-                      ,[1,0]]  //order to display alba pictures
+                      ,[1,0],[0,1,1,1],[0,0,0,1,1,1]]  //order to display alba pictures
+let npcPictureType = [[2],[3]]
 let pictureCount;                //what number of dialogue is being displayed to know which picture to display
 let albaColour = "#87A8E7"
 
@@ -51,6 +54,10 @@ progressPoint10 = false
 progressPoint11 = false
 progressPoint12 = false
 progressPoint13 = false
+progressPoint14 = false
+progressPoint15 = false
+progressPoint16 = false
+progressPoint17 = false
 
 //menu screen variables
 let gameStarted = false
@@ -447,15 +454,15 @@ let superMarket = {
     // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0], //5
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
     ],
 
@@ -649,8 +656,6 @@ function preload(){
   assets[48] = [loadImage('Resources/Images/CharacterSprites/Shopper2.png'),32,64]
   assets[49] = [loadImage('Resources/Images/CharacterSprites/Shopper3.png'),32,64]
   
-
-
   //sprite
   playerSprites[0] = loadImage('Resources/Images/CharacterSprites/AlbaDown.png')
   playerSprites[1] = loadImage('Resources/Images/CharacterSprites/AlbaLeft.png')
@@ -678,6 +683,8 @@ function preload(){
   //character pictures
   characterPictures[0] = loadImage('Resources/Images/CharacterSprites/characterArt/albaHappy.png')
   characterPictures[1] = loadImage('Resources/Images/CharacterSprites/characterArt/albaSad.png')
+  characterPictures[2] = loadImage('Resources/Images/CharacterSprites/characterArt/ShopperIcon1.png')
+  characterPictures[3] = loadImage('Resources/Images/CharacterSprites/characterArt/ShopperIcon2.png')
   
   //dialogue
   itemTextures[0] = [loadImage('Resources/Images/Out_Of_Bounds.png'),tileSize,tileSize] //Nothing, used to stop 0 on the map being an item
@@ -687,6 +694,10 @@ function preload(){
   itemTextures[4] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Clock interaction
   itemTextures[5] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Magnet interaction
   itemTextures[6] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Note interaction
+  itemTextures[7] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Shopper1 interaction
+  itemTextures[8] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Shopper2 interaction
+  itemTextures[9] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Shopper3 interaction
+  itemTextures[10] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Cashier interaction
 
   itemDialogue[1] = loadStrings('Resources/Dialogue/ItemDialogue/DeskDialogue.txt')
   itemDialogue[2] = loadStrings('Resources/Dialogue/ItemDialogue/CupboardDialogue.txt')
@@ -694,6 +705,10 @@ function preload(){
   itemDialogue[4] = loadStrings('Resources/Dialogue/ItemDialogue/ClockDialogue.txt')
   itemDialogue[5] = loadStrings('Resources/Dialogue/ItemDialogue/MagnetDialogue.txt')
   itemDialogue[6] = loadStrings('Resources/Dialogue/ItemDialogue/NoteDialogue.txt')
+  itemDialogue[7] = "empty"
+  itemDialogue[8] = "empty"
+  itemDialogue[9] = "empty"
+  itemDialogue[10] = "empty"
 
   albaDialogue[0] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue1.txt')
   albaDialogue[1] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue2.txt')
@@ -706,6 +721,11 @@ function preload(){
   albaDialogue[8] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue9.txt')
   albaDialogue[9] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue10.txt')
   albaDialogue[10] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue11.txt')
+  albaDialogue[11] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue12.txt')
+  albaDialogue[12] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue13.txt')
+
+  npcDialogue[0] = loadStrings('Resources/Dialogue/NPCDialogue/NPCDialogue1.txt')
+  npcDialogue[1] = loadStrings('Resources/Dialogue/NPCDialogue/NPCDialogue2.txt')
 
   objectiveList[0] = loadStrings('Resources/Dialogue/ObjectiveList/Objective1.txt')
   objectiveList[1] = loadStrings('Resources/Dialogue/ObjectiveList/Objective2.txt')
@@ -1148,7 +1168,7 @@ class Player {
 
   checkProgress(){
     if (gameStarted){
-      console.log(doorX,doorY)
+      //console.log(doorX,doorY)
       //opens doors as the player picks up more items
       let inventorySize = inventory.length
       if (inventorySize == 0 && !dialogueOn && !progressPoint1){ //Desk and cupboard objective displays once
@@ -1205,7 +1225,7 @@ class Player {
         progressPoint8 = true
         items[16][9].interactable = true
       }
-      if (inventorySize == 6 && !dialogueOn && !progressPoint9){ //brings up next alba dialogue and next objectuce
+      if (inventorySize == 6 && !dialogueOn && !progressPoint9){ //brings up next alba dialogue and next objective
         mainHouse.tileRules[11][11] = 2                          //to leave the house
         albaDialogueCount ++   
         player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
@@ -1223,6 +1243,30 @@ class Player {
         player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)
         currentObjective ++
         progressPoint11 = true
+        items[3][2].interactable = true
+        items[18][9].interactable = true
+      }
+      if (inventorySize == 7 && !dialogueOn && !progressPoint12){ //brings up next alba dialogue
+        albaDialogueCount ++   
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
+        progressPoint12 = true
+      }
+      if (inventorySize == 7 && !dialogueOn && !progressPoint13){ //brings up first npc dialogue
+        npcDialogueCount ++   
+        player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"#E0685C",'???',npcPictureType)  
+        progressPoint13 = true
+        items[7][10].interactable = true
+      }
+      if (inventorySize == 8 && !dialogueOn && !progressPoint14){ //brings up next alba dialogue
+        albaDialogueCount ++   
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
+        progressPoint14 = true
+      }
+      if (inventorySize == 8 && !dialogueOn && !progressPoint15){ //brings up next npc dialogue
+        npcDialogueCount ++   
+        player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"#E0A322",'???',npcPictureType)  
+        progressPoint15 = true
+        items[12][5].interactable = true
       }
     }
   }
@@ -1244,6 +1288,10 @@ class Player {
     dialogueCount = 0
     dialogueEnd = dialogueList.length - 1
     this.dialogue = dialogueList[dialogueCount]
+    if (dialogueList == "empty"){
+      dialogueOn = false
+      this.transition = false
+    }
   }
   //sets start position in each level
   setPlayerPosition(previousLevel){
