@@ -1,6 +1,10 @@
 //INITIALISE PLAYER VARIABLES
 let player;
 let playerSprites = [];
+let walkingDown = [];
+let walkingLeft = [];
+let walkingUp = [];
+let walkingRight = [];
 let playerSizeX = 32;
 let playerSizeY = 64;
 
@@ -17,13 +21,19 @@ let assetTileMap = [];
 let items = [];
 let itemTextures = [];
 let itemTypeName = ["","Desk","Cupboard","Teddybear","Clock","Magnet","Note"]
-let dialogueTest;
-let itemDialogue = [""]
-let albaDialogue = []
-let albaDialogueCount = -1
+let itemDialogue = [""]          //list of dialogue for interactables
+let albaDialogue = []            //list of alba's dialogue
+let albaDialogueCount = -1       //index of alba's dialogue text files to be displayed
 let inventory = [];
-let objectiveList = []
-let currentObjective = -1
+let objectiveList = []           //list of objectives
+let currentObjective = -1        //index of objective to be displayed
+let characterSpeaking = false
+let currentCharacterName;        //name of current character that is speaking
+let currentCharacterPicture;     //picture type list of current character that is speaking
+let characterPictures = [];      //list of all character pictures
+let currentPicture;              //current picture being displayed
+let albaPictureType = [[0],[0],[0],[1],[1,1],[1,1],[1,0],[1,0],[0,1,0]]  //order to display alba pictures
+let pictureCount;                //what number of dialogue is being displayed to know which picture to display
 
 //progress points to bring up dialogue and unlock doors when needed
 progressPoint1 = false
@@ -550,6 +560,8 @@ let dialogueOn = false
 //timer values
 let count;
 let countMax = 30;
+let animationCount = 0
+let animationCountMax = 12;
 
 //font
 let gamefont;
@@ -632,15 +644,37 @@ function preload(){
   playerSprites[1] = loadImage('Resources/Images/CharacterSprites/AlbaLeft.png')
   playerSprites[2] = loadImage('Resources/Images/CharacterSprites/AlbaUp.png')
   playerSprites[3] = loadImage('Resources/Images/CharacterSprites/AlbaRight.png')
+  
+  //walking animations
+  walkingDown[0] = loadImage('Resources/Images/CharacterSprites/albawalking/albadown1.png')
+  walkingDown[1] = loadImage('Resources/Images/CharacterSprites/albawalking/albadown2.png')
+  walkingDown[2] = loadImage('Resources/Images/CharacterSprites/albawalking/albadown3.png')
+  walkingDown[3] = loadImage('Resources/Images/CharacterSprites/albawalking/albadown4.png')
+  walkingLeft[0] = loadImage('Resources/Images/CharacterSprites/albawalking/albaleft1.png')
+  walkingLeft[1] = loadImage('Resources/Images/CharacterSprites/albawalking/albaleft2.png')
+  walkingLeft[2] = loadImage('Resources/Images/CharacterSprites/albawalking/albaleft3.png')
+  walkingLeft[3] = loadImage('Resources/Images/CharacterSprites/albawalking/albaleft4.png')
+  walkingUp[0] = loadImage('Resources/Images/CharacterSprites/albawalking/albaup1.png')
+  walkingUp[1] = loadImage('Resources/Images/CharacterSprites/albawalking/albaup2.png')
+  walkingUp[2] = loadImage('Resources/Images/CharacterSprites/albawalking/albaup3.png')
+  walkingUp[3] = loadImage('Resources/Images/CharacterSprites/albawalking/albaup4.png')
+  walkingRight[0] = loadImage('Resources/Images/CharacterSprites/albawalking/albaright1.png')
+  walkingRight[1] = loadImage('Resources/Images/CharacterSprites/albawalking/albaright2.png')
+  walkingRight[2] = loadImage('Resources/Images/CharacterSprites/albawalking/albaright3.png')
+  walkingRight[3] = loadImage('Resources/Images/CharacterSprites/albawalking/albaright4.png')
 
-  //item interactions
+  //character pictures
+  characterPictures[0] = loadImage('Resources/Images/CharacterSprites/characterArt/albaHappy.png')
+  characterPictures[1] = loadImage('Resources/Images/CharacterSprites/characterArt/albaSad.png')
+  
+  //dialogue
   itemTextures[0] = [loadImage('Resources/Images/Out_Of_Bounds.png'),tileSize,tileSize] //Nothing, used to stop 0 on the map being an item
-  itemTextures[1] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize] //Desk interaction
-  itemTextures[2] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize] //Cupboard interaction
-  itemTextures[3] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize] //Teddybear interaction
-  itemTextures[4] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize] //Clock interaction
-  itemTextures[5] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize] //Magnet interaction
-  itemTextures[6] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize] //Note interaction
+  itemTextures[1] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Desk interaction
+  itemTextures[2] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Cupboard interaction
+  itemTextures[3] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Teddybear interaction
+  itemTextures[4] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Clock interaction
+  itemTextures[5] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Magnet interaction
+  itemTextures[6] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Note interaction
 
   itemDialogue[1] = loadStrings('Resources/Dialogue/ItemDialogue/DeskDialogue.txt')
   itemDialogue[2] = loadStrings('Resources/Dialogue/ItemDialogue/CupboardDialogue.txt')
@@ -764,7 +798,9 @@ function draw() {
   for (let tileX = 0; tileX < tilesX; tileX++){
     for (let tileY = 0; tileY < tilesY; tileY++){
       if (itemMap[tileY][tileX] != 0){
+        if (items[tileX][tileY].interactable){
         items[tileX][tileY].display()
+        }
       }
     }
   }
@@ -786,8 +822,10 @@ function draw() {
     dialogueCount = 0
   }
   else{
-    if (dialogueOn == false) player.dialogue = "empty";
-    else{
+    if (dialogueOn == false){
+      player.dialogue = "empty";
+      characterSpeaking = false
+    }else{
       stroke("white")
       fill(0,0,0,150)
       rect(0,330,672,384)
@@ -798,6 +836,16 @@ function draw() {
       stroke(dialogueColour)
       strokeWeight(0.6)
       text(player.dialogue,0,height-37,667)
+      if (characterSpeaking && pictureCount >= 0){
+        stroke("white")
+        fill(0,0,0,150)
+        rect(0,300,80,28)
+        rect(608,264,672,64)
+        fill(dialogueColour)
+        stroke(dialogueColour)
+        text(currentCharacterName,40,318)
+        image(characterPictures[currentCharacterPicture[pictureCount][dialogueCount]],608,264,64,64)
+      }
     }
   }
 
@@ -890,6 +938,7 @@ class Item {
     this.tileSizeY = tileSizeY; //sets the item size
     this.itemID = itemID; //Determines the type of item
     this.dialogue = dialogue //dialogue for the item type
+    this.interactable = false
   }
 
   display(){
@@ -929,6 +978,7 @@ class Player {
 
     //movement
     this.isMoving = false;
+    this.frame = 0
     this.speed = 2
     this.spriteDirection = 0
 
@@ -938,17 +988,43 @@ class Player {
   display(){
     if (this.facing == "down"){
       this.spriteDirection = 0;
+      if (this.isMoving){
+        this.playAnimation(walkingDown)
+      }
     }
     if (this.facing == "left"){
       this.spriteDirection = 1;
+      if (this.isMoving){
+        this.playAnimation(walkingLeft)
+      }
     }
     if (this.facing == "up"){
       this.spriteDirection = 2;
+      if (this.isMoving){
+        this.playAnimation(walkingUp)
+      }
     }
     if (this.facing == "right"){
       this.spriteDirection = 3;
+      if (this.isMoving){
+        this.playAnimation(walkingRight)
+      }
     }
+    if (!this.isMoving){
     image(this.sprites[this.spriteDirection],this.xPos,this.yPos-this.playerSizeX,this.playerSizeX,this.playerSizeY);
+    }
+  }
+
+  playAnimation(direction){
+    if(this.frame >= 4){
+      this.frame = 0
+    }
+    image(direction[this.frame],this.xPos,this.yPos-this.playerSizeX,this.playerSizeX,this.playerSizeY);
+    animationCount ++
+    if (animationCount == animationCountMax){
+      this.frame ++
+      animationCount = 0
+    }
   }
 
   setDirection(){
@@ -1062,47 +1138,62 @@ class Player {
       if (inventorySize == 0 && !dialogueOn && !progressPoint1){ //Desk and cupboard objective displays once
         progressPoint1 = true                                    //the dialogue is closed
         currentObjective ++
+        items[7][5].interactable = true
+        items[3][9].interactable = true
       }
-      if (inventorySize == 2 && !dialogueOn && !progressPoint2){ //opens the door to leave and makes
-        progressPoint2 = true                                    //alba speak after 2 items have been
-        albaRoom.tileRules[10][8] = 2                            //interacted with, also brings up next
-        this.displayAlbaDialogue()                               //objective to leave the room
+      if (inventorySize == 2 && !dialogueOn && !progressPoint2){   //opens the door to leave and makes
+        progressPoint2 = true                                      //alba speak after 2 items have been
+        albaRoom.tileRules[10][8] = 2                              //interacted with, also brings up next
+        albaDialogueCount ++                                       //objective to leave the room
         currentObjective ++
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,'lightgreen','Alba',albaPictureType)
       }
       if (doorX == 8 && doorY == 10 && currentLevel == 1 && !progressPoint3){ //brings up next alba dialogue
-        this.displayAlbaDialogue()                                            //and next objective to check laura's room
+        albaDialogueCount ++                                                  //and next objective to check laura's room
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,'lightgreen','Alba',albaPictureType)   
         currentObjective ++
         progressPoint3 = true
       }
       if (doorX == 11 && doorY == 11 && currentLevel == 2 && !progressPoint4){ //brings up next alba dialogue
-        this.displayAlbaDialogue()                                             //and next objective to check the teddy bear
+        albaDialogueCount ++                                                   //and next objective to check the teddy bear
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,'lightgreen','Alba',albaPictureType)  
         currentObjective ++
         progressPoint4 = true
+        items[5][5].interactable = true
       }
       if (inventorySize == 3 && !dialogueOn && !progressPoint5){ //brings up the next alba dialogue and next objective
-        this.displayAlbaDialogue()                               //to check the clock
+        albaDialogueCount ++                                     //to check the clock
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,'lightgreen','Alba',albaPictureType)
         currentObjective ++
         progressPoint5 = true
+        items[10][3].interactable = true
       }
       if (inventorySize == 4 && !dialogueOn && !progressPoint6){ //brings up next alba dialogue and next objective
         lauraRoom.tileRules[10][10] = 2                          //to leave the room
-        this.displayAlbaDialogue()                               
+        albaDialogueCount ++   
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,'lightgreen','Alba',albaPictureType)                             
         currentObjective ++
         progressPoint6 = true
       }
       if (doorX == 10 && doorY == 10 && currentLevel == 1 && !progressPoint7){ //brings up next alba dialogue
-        this.displayAlbaDialogue()                                             //and next objective to go to the fridge
+        albaDialogueCount ++                                                   //and next objective to go to the fridge
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,'lightgreen','Alba',albaPictureType)
         currentObjective ++
         progressPoint7 = true
+        items[19][6].interactable = true
       }
-      if (inventorySize == 5 && !dialogueOn && !progressPoint8){ //brings up the next alba dialogue and next objective
-        this.displayAlbaDialogue()                               //to check the table
+      if (inventorySize == 5 && !dialogueOn && !progressPoint8){ //brings up the next alba dialogue and next 
+        albaDialogueCount ++                                     //to check the table
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,'lightgreen','Alba',albaPictureType)
         currentObjective ++
         progressPoint8 = true
+        items[16][9].interactable = true
       }
       if (inventorySize == 6 && !dialogueOn && !progressPoint9){ //brings up next alba dialogue and next objectuce
         mainHouse.tileRules[11][11] = 2                          //to leave the house
-        this.displayAlbaDialogue()                               //to check the table
+        albaDialogueCount ++   
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,'lightgreen','Alba',albaPictureType)  
+        
         currentObjective ++
         progressPoint9 = true
       }
@@ -1110,12 +1201,19 @@ class Player {
   }
 
   //displays the next of alba's dialogue to be said
-  displayAlbaDialogue(){
-    albaDialogueCount ++
+  displayCharacterDialogue(characterDialogue,characterDialogueCount,colour,characterName,picture){
+    characterSpeaking = true
+    currentCharacterName = characterName
+    currentCharacterPicture = picture
+    pictureCount = characterDialogueCount
+    this.displayDialogue(characterDialogue,characterDialogueCount,colour)
+  }
+
+  displayDialogue(dialogueType,dialogueNumber,fontColour){
     dialogueOn = true
     this.transition = true
-    dialogueColour = "lightgreen"
-    dialogueList = albaDialogue[albaDialogueCount]
+    dialogueColour = fontColour
+    dialogueList = dialogueType[dialogueNumber]
     dialogueCount = 0
     dialogueEnd = dialogueList.length - 1
     this.dialogue = dialogueList[dialogueCount]
@@ -1169,21 +1267,15 @@ class Player {
   pickUp(tileSelectedX,tileSelectedY){
     //checks if tile exists
     if (tileSelectedX >= 0 && tileSelectedX < tilesX && tileSelectedY >= 0 && tileSelectedY < tilesY){
-      //if there is an item, it is removed from the item map
+      //if there is an item, and it is interactable it is removed from the item map
       //and placed into the inventory
-      if (itemMap[tileSelectedY][tileSelectedX] != 0){
+      if (itemMap[tileSelectedY][tileSelectedX] != 0 && items[tileSelectedX][tileSelectedY].interactable){
 
         itemMap[tileSelectedY][tileSelectedX] = 0
         let itemValue = [items[tileSelectedX][tileSelectedY].name,items[tileSelectedX][tileSelectedY].itemID]
         append(inventory,itemValue)
         items[tileSelectedX][tileSelectedY] = ""
-        dialogueOn = true
-        this.transition = true
-        dialogueColour = "white"
-        dialogueList = itemDialogue[itemValue[1]]
-        dialogueCount = 0
-        dialogueEnd = dialogueList.length - 1
-        this.dialogue = dialogueList[dialogueCount]
+        this.displayDialogue(itemDialogue,itemValue[1],'white')
       }
     }
   }
@@ -1208,5 +1300,6 @@ function startGame(){
   gameStarted = true
   buttonPressed = true
   StartButton.remove()
-  player.displayAlbaDialogue()
+  albaDialogueCount ++
+  player.displayCharacterDialogue(albaDialogue,albaDialogueCount,'lightgreen','Alba',albaPictureType)
 }
