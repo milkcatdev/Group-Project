@@ -37,7 +37,7 @@ let currentPicture;              //current picture being displayed
 let albaPictureType = [[0],[0],[0],[1],[1,1],[1,1],[1,0],[1,0],[0,1,0],[0,0]
                       ,[1,0],[0,1,1,1],[0,0,0,1,1,1],[1,1,1,1,1],[1,1,1,1],[1,1]
                       ,[0],[0,0],[1,1],[1],[1],[1,1],[1,1,1]]  //order to display alba pictures
-let npcPictureType = [[2],[3],[4],[6,6,6,5],[5,6,6],[7,8,8],[8,8,8,8],[8,7]]
+let npcPictureType = [[2],[3],[4],[6,6,6,5],[5,6,6],[7,8,8],[8,8,8,8],[8,7],[0,0,0,0,0,0]]
 let pictureCount;                //what number of dialogue is being displayed to know which picture to display
 let albaColour = "#87A8E7"
 
@@ -74,6 +74,7 @@ progressPoint29 = false
 progressPoint30 = false
 progressPoint31 = false
 progressPoint32 = false
+progressPoint33 = false
 
 //menu screen variables
 let gameStarted = false
@@ -370,7 +371,7 @@ let street = {
   // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
     [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //0
     [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //1
-    [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0], //2
+    [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
     [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0], //3
     [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0], //4   1st VALUE (y)
     [1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0], //5
@@ -518,7 +519,7 @@ let graveyard = {
     // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
       [0, 0, 0, 0,44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
+      [0, 0, 0, 0, 0, 0, 0, 0, 0,51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
       [0, 0, 0, 0, 0,34, 0,35, 0, 0, 0, 0, 0,35, 0,35, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
       [0, 0, 0, 0, 0,35, 0,35, 0,50, 0, 0, 0,34, 0,34, 0, 0, 0, 0, 0], //5
@@ -675,6 +676,7 @@ function preload(){
   assets[48] = [loadImage('Resources/Images/CharacterSprites/Shopper2.png'),32,64]
   assets[49] = [loadImage('Resources/Images/CharacterSprites/Shopper3.png'),32,64]
   assets[50] = [loadImage('Resources/Images/CharacterSprites/Marco.png'),32,64]
+  assets[51] = [loadImage('Resources/Images/GraveyardTextures/bench.png'),96,64]
   
   //sprite
   playerSprites[0] = loadImage('Resources/Images/CharacterSprites/AlbaDown.png')
@@ -765,6 +767,7 @@ function preload(){
   npcDialogue[5] = loadStrings('Resources/Dialogue/NPCDialogue/MarcoDialogue1.txt')
   npcDialogue[6] = loadStrings('Resources/Dialogue/NPCDialogue/MarcoDialogue2.txt')
   npcDialogue[7] = loadStrings('Resources/Dialogue/NPCDialogue/MarcoDialogue3.txt')
+  npcDialogue[8] = loadStrings('Resources/Dialogue/FinalPresentationText.txt')
 
   objectiveList[0] = loadStrings('Resources/Dialogue/ObjectiveList/Objective1.txt')
   objectiveList[1] = loadStrings('Resources/Dialogue/ObjectiveList/Objective2.txt')
@@ -910,13 +913,22 @@ function draw() {
       fill(0,0,0,150)
       rect(0,330,672,384)
       textStyle(BOLD)
-      textSize(9)
       textAlign(CENTER)
       fill(dialogueColour)
       stroke(dialogueColour)
       strokeWeight(0.6)
-      text(player.dialogue,0,height-37,667)
-      if (characterSpeaking && pictureCount >= 0){
+      if (gameEnded){
+        fill(0)
+        square(0,0,700)
+        fill(dialogueColour)
+        textSize(12)
+        text(player.dialogue,86,height/2,500)
+      }else{
+        strokeWeight(0.6)
+        textSize(9)
+        text(player.dialogue,0,height-37,667)
+      }
+      if (characterSpeaking && pictureCount >= 0 && !gameEnded){
         stroke("white")
         fill(0,0,0,150)
         rect(0,300,80,28)
@@ -930,7 +942,7 @@ function draw() {
   }
 
   //displays 
-  if (currentObjective >= 0){
+  if (currentObjective >= 0 && !gameEnded){
     fill(0,0,0,150)
     stroke('white')
     strokeWeight(0.6)
@@ -945,23 +957,25 @@ function draw() {
 
   //displays main menu
   if (gameStarted == false){
-    
-    fill(255)
     image(frontcover,0,0,width,height);
+    strokeWeight(1)
+    stroke('white')
+    fill(0)
+    rect(500,350,width,height)
+    fill(255)
     textSize(30)
     textAlign(CENTER)
     text("¿Dónde está \n Laura?",500,160)
+    textSize(6)
+    strokeWeight(0.3)
+    text("Controls:",505,360,160)
+    text("W,A,S,D To Move",505,370,160)
+    text("E to Interact",505,380,160)
   }
-  if (gameEnded == true){
-    
+  if (gameEnded && !dialogueOn){
     fill(0)
     square(0,0,700)
-    fill(255)
-    textSize(30)
-    textAlign(CENTER)
-    text("The End",100,160)
   }
-
 }
 
 //creates the tile class
@@ -1220,7 +1234,7 @@ class Player {
   }
 
   checkProgress(){
-    if (gameStarted && !gameEnded){
+    if (gameStarted){
       //opens doors as the player picks up more items
       let inventorySize = inventory.length
       if (inventorySize == 0 && !dialogueOn && !progressPoint1){ //Desk and cupboard objective displays once
@@ -1406,14 +1420,20 @@ class Player {
         player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"#FFB165",'Marco',npcPictureType)  
         progressPoint30 = true
       }
-      if (inventorySize == 12 && !dialogueOn && !progressPoint31){ //brings up next alba dialogue
+      if (inventorySize == 12 && !dialogueOn && !progressPoint31){ //brings up last alba dialogue
         albaDialogueCount ++                                
         player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
         progressPoint31 = true
       }
-      if (inventorySize == 12 && !dialogueOn && !progressPoint32){ //brings up next alba dialogue
-        progressPoint32 = true
+      if (inventorySize == 12 && !dialogueOn && !progressPoint32){ //brings up end powerpoint
         gameEnded = true
+        npcDialogueCount ++ 
+        player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"white",'',npcPictureType)  
+        progressPoint32 = true
+      }
+      if (inventorySize == 12 && !dialogueOn && !progressPoint33){ //resets game 
+        progressPoint33 = true
+        window.location.reload()
       }
     }
   }
