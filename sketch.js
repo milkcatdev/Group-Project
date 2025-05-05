@@ -622,7 +622,7 @@ function preload(){
   textures[11] = [loadImage('Resources/Images/SupermarketTextures/Tiles/supermarketFloor.png'),tileSize,tileSize]
   textures[12] = [loadImage('Resources/Images/SupermarketTextures/Tiles/supermarketWall.png'),tileSize,tileSize]
   textures[13] = [loadImage('Resources/Images/SupermarketTextures/Tiles/supermarketWallTrim.png'),tileSize,tileSize]
-  textures[14] = [loadImage('Resources/Images/StreetTextures/Tiles/Pathedge.png'),tileSize,tileSize]
+  textures[14] = [loadImage('Resources/Images/StreetTextures/Tiles/pathedge.png'),tileSize,tileSize]
 
   //assets that go on top of tiles
   assets[0] = [loadImage('Resources/Images/Empty.png'),tileSize,tileSize]
