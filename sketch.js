@@ -20,7 +20,7 @@ let assetTileMap = [];
 //Items and Inventory
 let items = [];
 let itemTextures = [];
-let itemTypeName = ["","Desk","Cupboard","Teddybear","Clock","Magnet","Note","shopper1","shopper2","shopper3","cashier"]
+let itemTypeName = ["","Desk","Cupboard","Teddybear","Clock","Magnet","Note","npc"]
 let itemDialogue = [""]          //list of dialogue for interactables
 let albaDialogue = []            //list of alba's dialogue
 let albaDialogueCount = -1       //index of alba's dialogue text files to be displayed
@@ -35,8 +35,9 @@ let currentCharacterPicture;     //picture type list of current character that i
 let characterPictures = [];      //list of all character pictures
 let currentPicture;              //current picture being displayed
 let albaPictureType = [[0],[0],[0],[1],[1,1],[1,1],[1,0],[1,0],[0,1,0],[0,0]
-                      ,[1,0],[0,1,1,1],[0,0,0,1,1,1]]  //order to display alba pictures
-let npcPictureType = [[2],[3]]
+                      ,[1,0],[0,1,1,1],[0,0,0,1,1,1],[1,1,1,1,1],[1,1,1,1],[1,1]
+                      ,[0],[0,0],[1,1],[1],[1],[1,1],[1,1,1]]  //order to display alba pictures
+let npcPictureType = [[2],[3],[4],[6,6,6,5],[5,6,6],[7,8,8],[8,8,8,8],[8,7]]
 let pictureCount;                //what number of dialogue is being displayed to know which picture to display
 let albaColour = "#87A8E7"
 
@@ -58,9 +59,25 @@ progressPoint14 = false
 progressPoint15 = false
 progressPoint16 = false
 progressPoint17 = false
+progressPoint18 = false
+progressPoint19 = false
+progressPoint20 = false
+progressPoint21 = false
+progressPoint22 = false
+progressPoint23 = false
+progressPoint24 = false
+progressPoint25 = false
+progressPoint26 = false
+progressPoint27 = false
+progressPoint28 = false
+progressPoint29 = false
+progressPoint30 = false
+progressPoint31 = false
+progressPoint32 = false
 
 //menu screen variables
 let gameStarted = false
+let gameEnded = false
 let StartButton;
 
 //LEVEL DATA OBJECTS
@@ -339,7 +356,7 @@ let street = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,50, 0, 0, 0, 0, 0], //5
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
@@ -353,11 +370,11 @@ let street = {
   // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
     [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //0
     [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //1
-    [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], //2
+    [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0], //2
     [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0], //3
     [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0], //4   1st VALUE (y)
     [1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0], //5
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], //6
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
@@ -374,7 +391,7 @@ let street = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
@@ -446,7 +463,7 @@ let superMarket = {
     [1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1], //8
     [1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1], //9
     [1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0], //10
-    [1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 2, 0, 0]  //11
+    [1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0]  //11
   ],
 
   itemMap: [
@@ -457,12 +474,12 @@ let superMarket = {
       [0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0], //5
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 0, 0], //9
-      [0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0], //9
+      [0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  //11
     ],
 
@@ -504,7 +521,7 @@ let graveyard = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //2
       [0, 0, 0, 0, 0,34, 0,35, 0, 0, 0, 0, 0,35, 0,35, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
-      [0, 0, 0, 0, 0,35, 0,35, 0, 0, 0, 0, 0,34, 0,34, 0, 0, 0, 0, 0], //5
+      [0, 0, 0, 0, 0,35, 0,35, 0,50, 0, 0, 0,34, 0,34, 0, 0, 0, 0, 0], //5
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0,34, 0,34, 0, 0, 0, 0, 0,35, 0,34, 0, 0, 0, 0, 0], //8
@@ -521,8 +538,8 @@ let graveyard = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], //2
     [1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1], //3
     [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //4   1st VALUE (y)
-    [1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1], //5
-    [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //6
+    [1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1], //5
+    [1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //6
     [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //7
     [1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1], //8
     [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], //9
@@ -539,7 +556,7 @@ let graveyard = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //3
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //4   1st VALUE (y)
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //5
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //6
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //7
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //8
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //9
@@ -578,10 +595,12 @@ let animationCountMax = 12;
 //font
 let gamefont;
 let mainthemebgm;
+let sadthemebgm;
 
 function preload(){
   //music
   mainthemebgm = loadSound('Resources/Audio/Music/MainTheme.ogg');
+  sadthemebgm = loadSound('Resources/Audio/Music/SadTheme.ogg');
   //custom font
   gamefont = loadFont('Resources/Fonts/dogicapixel.otf');
   //cover image for title screen
@@ -655,6 +674,7 @@ function preload(){
   assets[47] = [loadImage('Resources/Images/CharacterSprites/Shopper1.png'),32,64]
   assets[48] = [loadImage('Resources/Images/CharacterSprites/Shopper2.png'),32,64]
   assets[49] = [loadImage('Resources/Images/CharacterSprites/Shopper3.png'),32,64]
+  assets[50] = [loadImage('Resources/Images/CharacterSprites/Marco.png'),32,64]
   
   //sprite
   playerSprites[0] = loadImage('Resources/Images/CharacterSprites/AlbaDown.png')
@@ -685,6 +705,11 @@ function preload(){
   characterPictures[1] = loadImage('Resources/Images/CharacterSprites/characterArt/albaSad.png')
   characterPictures[2] = loadImage('Resources/Images/CharacterSprites/characterArt/ShopperIcon1.png')
   characterPictures[3] = loadImage('Resources/Images/CharacterSprites/characterArt/ShopperIcon2.png')
+  characterPictures[4] = loadImage('Resources/Images/CharacterSprites/characterArt/ShopperIcon3.png')
+  characterPictures[5] = loadImage('Resources/Images/CharacterSprites/characterArt/CashierHappy.png')
+  characterPictures[6] = loadImage('Resources/Images/CharacterSprites/characterArt/CashierSad.png')
+  characterPictures[7] = loadImage('Resources/Images/CharacterSprites/characterArt/MarcoHappy.png')
+  characterPictures[8] = loadImage('Resources/Images/CharacterSprites/characterArt/MarcoSad.png')
   
   //dialogue
   itemTextures[0] = [loadImage('Resources/Images/Out_Of_Bounds.png'),tileSize,tileSize] //Nothing, used to stop 0 on the map being an item
@@ -698,6 +723,7 @@ function preload(){
   itemTextures[8] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Shopper2 interaction
   itemTextures[9] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Shopper3 interaction
   itemTextures[10] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Cashier interaction
+  itemTextures[11] = [loadImage('Resources/Images/Interact.png'),tileSize,tileSize] //Marco interaction
 
   itemDialogue[1] = loadStrings('Resources/Dialogue/ItemDialogue/DeskDialogue.txt')
   itemDialogue[2] = loadStrings('Resources/Dialogue/ItemDialogue/CupboardDialogue.txt')
@@ -706,9 +732,6 @@ function preload(){
   itemDialogue[5] = loadStrings('Resources/Dialogue/ItemDialogue/MagnetDialogue.txt')
   itemDialogue[6] = loadStrings('Resources/Dialogue/ItemDialogue/NoteDialogue.txt')
   itemDialogue[7] = "empty"
-  itemDialogue[8] = "empty"
-  itemDialogue[9] = "empty"
-  itemDialogue[10] = "empty"
 
   albaDialogue[0] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue1.txt')
   albaDialogue[1] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue2.txt')
@@ -723,9 +746,25 @@ function preload(){
   albaDialogue[10] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue11.txt')
   albaDialogue[11] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue12.txt')
   albaDialogue[12] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue13.txt')
+  albaDialogue[13] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue14.txt')
+  albaDialogue[14] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue15.txt')
+  albaDialogue[15] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue16.txt')
+  albaDialogue[16] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue17.txt')
+  albaDialogue[17] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue18.txt')
+  albaDialogue[18] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue19.txt')
+  albaDialogue[19] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue20.txt')
+  albaDialogue[20] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue21.txt')
+  albaDialogue[21] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue22.txt')
+  albaDialogue[22] = loadStrings('Resources/Dialogue/AlbaDialogue/AlbaDialogue23.txt')
 
   npcDialogue[0] = loadStrings('Resources/Dialogue/NPCDialogue/NPCDialogue1.txt')
   npcDialogue[1] = loadStrings('Resources/Dialogue/NPCDialogue/NPCDialogue2.txt')
+  npcDialogue[2] = loadStrings('Resources/Dialogue/NPCDialogue/NPCDialogue3.txt')
+  npcDialogue[3] = loadStrings('Resources/Dialogue/NPCDialogue/CashierDialogue1.txt')
+  npcDialogue[4] = loadStrings('Resources/Dialogue/NPCDialogue/CashierDialogue2.txt')
+  npcDialogue[5] = loadStrings('Resources/Dialogue/NPCDialogue/MarcoDialogue1.txt')
+  npcDialogue[6] = loadStrings('Resources/Dialogue/NPCDialogue/MarcoDialogue2.txt')
+  npcDialogue[7] = loadStrings('Resources/Dialogue/NPCDialogue/MarcoDialogue3.txt')
 
   objectiveList[0] = loadStrings('Resources/Dialogue/ObjectiveList/Objective1.txt')
   objectiveList[1] = loadStrings('Resources/Dialogue/ObjectiveList/Objective2.txt')
@@ -738,6 +777,11 @@ function preload(){
   objectiveList[8] = loadStrings('Resources/Dialogue/ObjectiveList/Objective9.txt')
   objectiveList[9] = loadStrings('Resources/Dialogue/ObjectiveList/Objective10.txt')
   objectiveList[10] = loadStrings('Resources/Dialogue/ObjectiveList/Objective11.txt')
+  objectiveList[11] = loadStrings('Resources/Dialogue/ObjectiveList/Objective12.txt')
+  objectiveList[12] = loadStrings('Resources/Dialogue/ObjectiveList/Objective13.txt')
+  objectiveList[13] = loadStrings('Resources/Dialogue/ObjectiveList/Objective14.txt')
+  objectiveList[14] = loadStrings('Resources/Dialogue/ObjectiveList/Objective15.txt')
+  objectiveList[15] = loadStrings('Resources/Dialogue/ObjectiveList/Objective16.txt')
 }
 
 function setup() {
@@ -908,6 +952,15 @@ function draw() {
     textAlign(CENTER)
     text("¿Dónde está \n Laura?",500,160)
   }
+  if (gameEnded == true){
+    
+    fill(0)
+    square(0,0,700)
+    fill(255)
+    textSize(30)
+    textAlign(CENTER)
+    text("The End",100,160)
+  }
 
 }
 
@@ -1069,7 +1122,7 @@ class Player {
     let left = 65;    //a
     let right = 68    //d
 
-    if (!this.isMoving && gameStarted){
+    if (!this.isMoving && gameStarted && !gameEnded){
       //moves up
       if (keyIsDown(up)){
         this.dirX = 0;
@@ -1167,8 +1220,7 @@ class Player {
   }
 
   checkProgress(){
-    if (gameStarted){
-      //console.log(doorX,doorY)
+    if (gameStarted && !gameEnded){
       //opens doors as the player picks up more items
       let inventorySize = inventory.length
       if (inventorySize == 0 && !dialogueOn && !progressPoint1){ //Desk and cupboard objective displays once
@@ -1244,7 +1296,6 @@ class Player {
         currentObjective ++
         progressPoint11 = true
         items[3][2].interactable = true
-        items[18][9].interactable = true
       }
       if (inventorySize == 7 && !dialogueOn && !progressPoint12){ //brings up next alba dialogue
         albaDialogueCount ++   
@@ -1267,6 +1318,102 @@ class Player {
         player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"#E0A322",'???',npcPictureType)  
         progressPoint15 = true
         items[12][5].interactable = true
+      }
+      if (inventorySize == 9 && !dialogueOn && !progressPoint16){ //brings up next alba dialogue
+        albaDialogueCount ++   
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
+        progressPoint16 = true
+      }
+      if (inventorySize == 9 && !dialogueOn && !progressPoint17){ //brings up next npc dialogue
+        npcDialogueCount ++   
+        player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"#B1A9CC",'???',npcPictureType)  
+        progressPoint17 = true
+        items[18][9].interactable = true
+      }
+      if (inventorySize == 10 && !dialogueOn && !progressPoint18){ //brings up next alba dialogue
+        albaDialogueCount ++   
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
+        progressPoint18 = true
+      }
+      if (inventorySize == 10 && !dialogueOn && !progressPoint19){ //brings up the first cashier dialogue
+        npcDialogueCount ++   
+        player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"#24BD51",'Cashier',npcPictureType)  
+        progressPoint19 = true
+      }
+      if (inventorySize == 10 && !dialogueOn && !progressPoint20){ //brings up next alba dialogue
+        albaDialogueCount ++   
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
+        progressPoint20 = true
+      }
+      if (inventorySize == 10 && !dialogueOn && !progressPoint21){ //brings up the next cashier dialogue
+        npcDialogueCount ++   
+        player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"#24BD51",'Cashier',npcPictureType)  
+        progressPoint21 = true
+      }
+      if (inventorySize == 10 && !dialogueOn && !progressPoint22){ //brings up next alba dialogue and next objective
+        albaDialogueCount ++                                       //also opens door to leave the supermarket
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)
+        superMarket.tileRules[11][18] = 2 
+        currentObjective ++
+        progressPoint22 = true
+      }
+      if (doorX == 18 && doorY == 11 && currentLevel == 3 && !progressPoint23){ //brings up next alba dialogue
+        albaDialogueCount ++                                                   //and next objective to talk to marco
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)
+        currentObjective ++
+        progressPoint23 = true
+        items[15][6].interactable = true
+      }
+      if (inventorySize == 11 && !dialogueOn && !progressPoint24){ //brings up next alba dialogue
+        albaDialogueCount ++   
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
+        progressPoint24 = true
+      }
+      if (inventorySize == 11 && !dialogueOn && !progressPoint25){ //brings up the first marco dialogue and
+        npcDialogueCount ++                                        //objective to go to the graveyard
+        player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"#FFB165",'Marco',npcPictureType)  
+        progressPoint25 = true
+        currentObjective ++
+        street.tileRules[2][20] = 2 
+      }
+      if (doorX == 20 && doorY == 2 && currentLevel == 5 && !progressPoint26){ //brings up next alba dialogue
+        albaDialogueCount ++                                                   //and next objective to talk to marco
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)
+        mainthemebgm.stop()
+        sadthemebgm.loop()
+        currentObjective ++
+        progressPoint26 = true
+        items[9][6].interactable = true
+      }
+      if (inventorySize == 12 && !dialogueOn && !progressPoint27){ //brings up next alba dialogue
+        albaDialogueCount ++                                       //and last objective
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
+        progressPoint27 = true
+        currentObjective ++
+      }
+      if (inventorySize == 12 && !dialogueOn && !progressPoint28){ //brings up the next marco dialogue
+        npcDialogueCount ++                                  
+        player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"#FFB165",'Marco',npcPictureType)  
+        progressPoint28 = true
+      }
+      if (inventorySize == 12 && !dialogueOn && !progressPoint29){ //brings up next alba dialogue
+        albaDialogueCount ++                                
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
+        progressPoint29 = true
+      }
+      if (inventorySize == 12 && !dialogueOn && !progressPoint30){ //brings up the next marco dialogue
+        npcDialogueCount ++                                  
+        player.displayCharacterDialogue(npcDialogue,npcDialogueCount,"#FFB165",'Marco',npcPictureType)  
+        progressPoint30 = true
+      }
+      if (inventorySize == 12 && !dialogueOn && !progressPoint31){ //brings up next alba dialogue
+        albaDialogueCount ++                                
+        player.displayCharacterDialogue(albaDialogue,albaDialogueCount,albaColour,'Alba',albaPictureType)  
+        progressPoint31 = true
+      }
+      if (inventorySize == 12 && !dialogueOn && !progressPoint32){ //brings up next alba dialogue
+        progressPoint32 = true
+        gameEnded = true
       }
     }
   }
