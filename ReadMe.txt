@@ -4,9 +4,9 @@ BY Beast
 
 MEMBERS: Beau Worby (2501785), Chay Sarkhel (2502167), Ella Webb (2508795), Mila Widmann (2502458) 
 
-Link to GITHUB REPO: https://github.com/milkcatmiu/Group-Project/tree/main
+Link to GITHUB REPO: https://github.com/milkcatdev/Group-Project/tree/main
 
-Link to GITHUB PAGES: https://milkcatmiu.github.io/Group-Project/
+Link to GITHUB PAGES: https://milkcatdev.github.io/Group-Project/
 
 Beau’s Contribution,  
 
